@@ -26,27 +26,279 @@ pacman::p_load(tidyverse, haven,
                ggrepel, ggthemes,
                ggridges, ggdist,
                patchwork, ggpattern,
-               hrbrthemes)
+               hrbrthemes, plotly,
+               sf, tmap)
 ```
 
 ### Import data
 
 ```{r}
 pollutants <- read_csv("../data/pollutants_singapore.csv", locale = locale(encoding = "ISO-8859-1"))
+```
+
+
+```{r}
 weather <- read_csv("../data/weather_singapore_2014_to_2017.csv", locale = locale(encoding = "ISO-8859-1"))
 ```
 
-## Understanding the data
+## Pollutants Dataset
 
-::: panel-tabset
-
-### Pollutants Dataset
+### Pre-processing
 ```{r}
 str(pollutants)
 ```
-### Weather Dataset
 
 ```{r}
+# Convert date column from character to date type
+pollutants <- pollutants %>%
+  mutate(date = trimws(date), 
+         date = as.Date(date, format="%Y/%m/%d"))
+         
+# Check that date column is now date type
+str(pollutants)
+```
+
+```{r}
+# Rename date column top 'Date'
+pollutants <- pollutants %>% 
+       rename("Date" = "date")
+```
+
+
+```{r}
+# Filter data for 2014 - 2017 only 
+pollutants_2014_2017 <- pollutants %>%
+  filter(year(date) >= 2014 & year(date) <= 2017)
+```
+
+### Plots
+```{r}
+# Pollutants over time
+# Reshape data to long format
+pollutants_2014_2017_long <- pollutants_2014_2017 %>%
+  pivot_longer(cols = c(pm25, pm10, o3, no2, so2, co, psi), names_to = "pollutant", values_to = "value")
+
+# Time series plot for all pollutants
+ggplot(pollutants_2014_2017_long, aes(x = date, y = value, color = pollutant)) +
+  geom_line() +
+  labs(title = "Pollutants over Time (2014-2017)", x = "Date", y = "Concentration", color = "Pollutant") +
+  theme_minimal()
+```
+```{r}
+# Density plot for PM2.5 across Areas
+ggplot(pollutants_2014_2017, aes(x = pm25, fill = Area)) +
+  geom_density(alpha = 0.5) +
+  labs(title = "Density Plot of PM2.5 by Area, 2014-2017", x = "PM2.5", y = "Density") +
+  theme_minimal() +
+  scale_fill_discrete(name = "Area")
+
+```
+```{r}
+# Boxplot for PM2.5
+ggplot(pollutants_2014_2017, aes(x = Area, y = pm25, fill = Area)) +
+  geom_boxplot(alpha = 0.5) +
+  labs(title = "Boxplot of PM2.5 by Area, 2014-2017", x = "Area", y = "PM2.5") +
+  theme_minimal() +
+  scale_fill_discrete(name = "Area")
+```
+
+
+```{r}
+# Density plot for PM10 across Areas
+ggplot(pollutants_2014_2017, aes(x = pm10, fill = Area)) +
+  geom_density(alpha = 0.5) +
+  labs(title = "Density Plot of PM10 by Area, 2014-2017", x = "PM10", y = "Density") +
+  theme_minimal() +
+  scale_fill_discrete(name = "Area")
+```
+
+```{r}
+# Boxplot for PM10
+ggplot(pollutants_2014_2017, aes(x = Area, y = pm10, fill = Area)) +
+  geom_boxplot(alpha = 0.5) +
+  labs(title = "Boxplot of PM10 by Area, 2014-2017", x = "Area", y = "PM10") +
+  theme_minimal() +
+  scale_fill_discrete(name = "Area")
+```
+
+```{r}
+# Correlation heatmap of how pollutants are correlated with others
+```
+
+
+## Weather
+### Pre-processing
+```{r}
 str(weather)
+```
+
+```{r}
+# Convert the character columns for rainfall and temperature to numeric
+cols_to_convert <- c('Daily Rainfall Total (mm)', 'Highest 30 Min Rainfall (mm)', 
+                     'Highest 60 Min Rainfall (mm)', 'Highest 120 Min Rainfall (mm)', 
+                     'Mean Temperature (°C)', 'Maximum Temperature (°C)', 
+                     'Minimum Temperature (°C)', 'Mean Wind Speed (km/h)', 
+                     'Max Wind Speed (km/h)')
+
+weather[cols_to_convert] <- lapply(weather[cols_to_convert], function(x) as.numeric(as.character(x)))
+
+# Convert 'Year', 'Month', 'Day' to a Date object for plotting
+weather <- weather %>%
+  mutate(Date = as.Date(paste(Year, Month, Day, sep = "-")),
+         `Mean Temperature (°C)` = as.numeric(`Mean Temperature (°C)`))
+
+```
+
+```{r}
+# Convert the data frame to an sf object using the latitude and longitude
+weather_sf <- st_as_sf(weather, coords = c("LONG", "LAT"), crs = 4326)
+
+str(weather_sf)
+```
+```{r}
+# Just view where are the weather stations 
+# Set tmap mode to view
+tmap_mode("view")
+
+# Plot using tmap
+tm_basemap <- tm_basemap(server = "OpenStreetMap") # Choose a basemap server
+tm_shape(weather_sf) +
+  tm_basemap +
+  tm_dots(size = 0.1, col = "Area") +
+  tm_layout(title = "Weather Stations in Singapore")
+```
+
+```{r}
+str(weather_summary)
+```
+### Rainfall Plots
+
+```{r}
+# Create a Date column for plotting
+weather$Date <- as.Date(paste(weather$Year, weather$Month, weather$Day, sep = "-"))
+
+# Now, plot the data
+gg <- ggplot(weather, aes(x = Date, y = weather$`Daily Rainfall Total (mm)`, group = Area, color = Area)) +
+  geom_line() +
+  labs(title = 'Daily Rainfall Across the Years by Area',
+       x = 'Year', 
+       y = 'Daily Rainfall Total (mm)') +
+  theme_minimal() +
+  theme(legend.title = element_blank())
+
+# Print the plot
+print(gg)
+```
+
+
+### Temperature Plots
+
+```{r}
+#| fig-width: 12
+# Create a Date column for plotting
+weather$Date <- as.Date(paste(weather$Year, weather$Month, weather$Day, sep = "-"))
+
+# Now, plot the data
+gg <- ggplot(weather, aes(x = Date, y = `Mean Temperature (°C)`, group = Area, color = Area)) +
+  geom_line() +
+  labs(title = 'Mean Temperature Across the Years by Area',
+       x = 'Year', 
+       y = 'Mean Temperature (°C)') +
+  theme_minimal() +
+  theme(legend.title = element_blank())  # Hide the legend title if desired
+
+# Print the plot
+print(gg)
+```
+
+
+```{r}
+# Assuming your weather dataset is named 'weather'
+# First, convert relevant columns to numeric if they are not already
+weather$`Mean Temperature (°C)` <- as.numeric(as.character(weather$`Mean Temperature (°C)`))
+
+# Then, make sure that Year and Month are in the correct format
+weather$Year <- as.integer(weather$Year)
+weather$Month <- as.integer(weather$Month)
+
+# Aggregate the data by Year and Month
+weather_summary <- weather %>%
+  group_by(Year, Month) %>%
+  summarise(MeanTemp = mean(`Mean Temperature (°C)`, na.rm = TRUE), .groups = 'drop') %>%
+  arrange(Year, Month)
+
+# Check the structure of the aggregated data
+print(weather_summary)
+
+# Create labels for the Sunburst plot
+weather_summary$Label <- format(as.Date(paste0(weather_summary$Year, "-", weather_summary$Month, "-01")), "%b")
+weather_summary$YearMonth <- paste(weather_summary$Year, weather_summary$Label)
+
+# Create the Sunburst plot
+sunburst_plot <- plot_ly(weather_summary,
+                         ids = ~YearMonth,
+                         labels = ~Label,
+                         parents = ~Year,
+                         values = ~MeanTemp,
+                         type = 'sunburst',
+                         branchvalues = 'total') %>%
+  layout(title = 'Mean Monthly Temperature from 2014 to 2017')
+
+# Print the plot
+sunburst_plot
+
+```
+
+
+
+## Weather and Air Pollution
+```{r}
+# Check data
+# Check column names and types for pollutants dataframe
+print(names(pollutants))
+print(sapply(pollutants, class))
+
+
+# Ensure Date columns are in Date format and Area columns are characters
+pollutants$Date 
+```
+
+```{r}
+# Merge the datasets on Area and Date
+combined_data <- merge(pollutants, weather, by = c("Area", "Date"))
+
+# Create scatter plots for each Area
+gg <- ggplot(combined_data, aes(x = pm25, y = combined_data$`Mean Temperature (°C)`)) +
+  geom_point(alpha = 0.5) +  # Use alpha to make points semi-transparent
+  facet_wrap(~Area) +  # Creates a separate plot for each Area
+  labs(title = 'Relationship between PM2.5 and Daily Rainfall Total',
+       x = 'PM2.5 (µg/m³)', 
+       y = 'Mean Temperature (°C)') +
+  coord_cartesian(xlim=c(0,500),
+                  ylim=c(15,40))
+
+# Print the plot
+print(gg)
+
+```
+
+
+
+```{r}
+# Scatter plot
+ggplot(combined_data, aes(x = pm25, y = combined_data$`Mean Temperature (°C)`)) +
+  geom_point(alpha = 0.5) +  # Use alpha to make points semi-transparent
+  labs(title = 'Relationship between PM2.5 and Mean Temperature Total',
+       x = 'PM2.5 (µg/m³)', 
+       y = 'Mean Temperature (°C)') +
+  coord_cartesian(xlim=c(0,500),
+                  ylim=c(15,40))
+
+```
+
+```{r}
+# Boxplot 
+
+
 ```
 
