@@ -13,10 +13,10 @@ website:
       - text: Prototyping
         menu:
           - text: Exploratory Data Analysis
-            href: EDA.html
-      - text: Shiny App (link to be updated)
-        href: https://github.com/spacebun/ISSS608-GroupProject
-      - text: Project Posted (link to be updated)
+            href: code/EDA.html
+      - text: Shiny App
+        href: app.html
+      - text: Project Poster
         href: project_poster.pdf
       - about.qmd
 
