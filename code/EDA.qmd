@@ -16,7 +16,11 @@ execute:
 
 draft: true
 ---
-# Test 
+
+# Test
+
+# Test2
+
 ## Getting Started
 
 ### Load libraries
@@ -36,7 +40,6 @@ pacman::p_load(tidyverse, haven,
 pollutants <- read_csv("../data/pollutants_singapore.csv", locale = locale(encoding = "ISO-8859-1"))
 ```
 
-
 ```{r}
 weather <- read_csv("../data/weather_singapore_2014_to_2017.csv", locale = locale(encoding = "ISO-8859-1"))
 ```
@@ -44,6 +47,7 @@ weather <- read_csv("../data/weather_singapore_2014_to_2017.csv", locale = local
 ## Pollutants Dataset
 
 ### Pre-processing
+
 ```{r}
 str(pollutants)
 ```
@@ -64,7 +68,6 @@ pollutants <- pollutants %>%
        rename("Date" = "date")
 ```
 
-
 ```{r}
 # Filter data for 2014 - 2017 only 
 pollutants_2014_2017 <- pollutants %>%
@@ -72,6 +75,7 @@ pollutants_2014_2017 <- pollutants %>%
 ```
 
 ### Plots
+
 ```{r}
 # Pollutants over time
 # Reshape data to long format
@@ -84,6 +88,7 @@ ggplot(pollutants_2014_2017_long, aes(x = date, y = value, color = pollutant)) +
   labs(title = "Pollutants over Time (2014-2017)", x = "Date", y = "Concentration", color = "Pollutant") +
   theme_minimal()
 ```
+
 ```{r}
 # Density plot for PM2.5 across Areas
 ggplot(pollutants_2014_2017, aes(x = pm25, fill = Area)) +
@@ -93,6 +98,7 @@ ggplot(pollutants_2014_2017, aes(x = pm25, fill = Area)) +
   scale_fill_discrete(name = "Area")
 
 ```
+
 ```{r}
 # Boxplot for PM2.5
 ggplot(pollutants_2014_2017, aes(x = Area, y = pm25, fill = Area)) +
@@ -101,7 +107,6 @@ ggplot(pollutants_2014_2017, aes(x = Area, y = pm25, fill = Area)) +
   theme_minimal() +
   scale_fill_discrete(name = "Area")
 ```
-
 
 ```{r}
 # Density plot for PM10 across Areas
@@ -125,9 +130,10 @@ ggplot(pollutants_2014_2017, aes(x = Area, y = pm10, fill = Area)) +
 # Correlation heatmap of how pollutants are correlated with others
 ```
 
-
 ## Weather
+
 ### Pre-processing
+
 ```{r}
 str(weather)
 ```
@@ -155,6 +161,7 @@ weather_sf <- st_as_sf(weather, coords = c("LONG", "LAT"), crs = 4326)
 
 str(weather_sf)
 ```
+
 ```{r}
 # Just view where are the weather stations 
 # Set tmap mode to view
@@ -171,6 +178,7 @@ tm_shape(weather_sf) +
 ```{r}
 str(weather_summary)
 ```
+
 ### Rainfall Plots
 
 ```{r}
@@ -189,7 +197,6 @@ gg <- ggplot(weather, aes(x = Date, y = weather$`Daily Rainfall Total (mm)`, gro
 # Print the plot
 print(gg)
 ```
-
 
 ### Temperature Plots
 
@@ -210,7 +217,6 @@ gg <- ggplot(weather, aes(x = Date, y = `Mean Temperature (°C)`, group = Area, 
 # Print the plot
 print(gg)
 ```
-
 
 ```{r}
 # Assuming your weather dataset is named 'weather'
@@ -249,9 +255,8 @@ sunburst_plot
 
 ```
 
-
-
 ## Weather and Air Pollution
+
 ```{r}
 # Check data
 # Check column names and types for pollutants dataframe
@@ -282,8 +287,6 @@ print(gg)
 
 ```
 
-
-
 ```{r}
 # Scatter plot
 ggplot(combined_data, aes(x = pm25, y = combined_data$`Mean Temperature (°C)`)) +
@@ -301,4 +304,3 @@ ggplot(combined_data, aes(x = pm25, y = combined_data$`Mean Temperature (°C)`))
 
 
 ```
-
