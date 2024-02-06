@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2024-02-05">
 
-<title>Weatherwise or Otherwise - ISSS608-Group-Test</title>
+<title>Weatherwise or Otherwise - Exploratory Data Analysis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -57,22 +58,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -102,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -112,7 +113,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Weatherwise or Otherwise</span>
     </a>
   </div>
@@ -123,11 +124,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Project_Proposal.html"> 
+    <a class="nav-link" href="../Project_Proposal.html"> 
 <span class="menu-text">Project Proposal</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -136,21 +137,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-prototyping">    
         <li>
-    <a class="dropdown-item" href="./code/EDA.html">
+    <a class="dropdown-item" href="../code/EDA.html">
  <span class="dropdown-text">Exploratory Data Analysis</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="./app.html"> 
+    <a class="nav-link" href="../app.html"> 
 <span class="menu-text">Shiny App</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./project_poster.pdf"> 
+    <a class="nav-link" href="../project_poster.pdf"> 
 <span class="menu-text">Project Poster</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
 </ul>
@@ -165,14 +166,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started">Getting Started</a>
+  <ul class="collapse">
+  <li><a href="#load-libraries" id="toc-load-libraries" class="nav-link" data-scroll-target="#load-libraries">Load libraries</a></li>
+  <li><a href="#import-data" id="toc-import-data" class="nav-link" data-scroll-target="#import-data">Import data</a></li>
+  </ul></li>
+  <li><a href="#understanding-the-data" id="toc-understanding-the-data" class="nav-link" data-scroll-target="#understanding-the-data">Understanding the data</a>
+  <ul class="collapse">
+  <li><a href="#pollutants-dataset" id="toc-pollutants-dataset" class="nav-link" data-scroll-target="#pollutants-dataset">Pollutants Dataset</a></li>
+  <li><a href="#weather-dataset" id="toc-weather-dataset" class="nav-link" data-scroll-target="#weather-dataset">Weather Dataset</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">ISSS608-Group-Test</h1>
+<h1 class="title">Exploratory Data Analysis</h1>
 </div>
 
 
@@ -180,7 +196,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-title-meta">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 5, 2024</p>
+    </div>
+  </div>
   
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">February 6, 2024</p>
+    </div>
+  </div>
     
   </div>
   
@@ -189,18 +217,104 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This is a Quarto website.</p>
-<p>To learn more about Quarto websites visit <a href="https://quarto.org/docs/websites" class="uri">https://quarto.org/docs/websites</a>.</p>
+<section id="getting-started" class="level2">
+<h2 class="anchored" data-anchor-id="getting-started">Getting Started</h2>
+<section id="load-libraries" class="level3">
+<h3 class="anchored" data-anchor-id="load-libraries">Load libraries</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, haven,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>               ggrepel, ggthemes,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>               ggridges, ggdist,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>               patchwork, ggpattern,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>               hrbrthemes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="import-data" class="level3">
+<h3 class="anchored" data-anchor-id="import-data">Import data</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pollutants <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../data/pollutants_singapore.csv"</span>, <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">"ISO-8859-1"</span>))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>weather <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../data/weather_singapore_2014_to_2017.csv"</span>, <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">"ISO-8859-1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="understanding-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="understanding-the-data">Understanding the data</h2>
+<p>::: panel-tabset</p>
+<section id="pollutants-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="pollutants-dataset">Pollutants Dataset</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(pollutants)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
+<pre><code>spc_tbl_ [18,390 × 9] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+ $ Area: chr [1:18390] "Central" "Central" "Central" "Central" ...
+ $ date: chr [1:18390] "2024/2/1" "2024/2/2" "2024/2/3" "2024/1/1" ...
+ $ pm25: num [1:18390] 46 48 46 35 25 37 26 26 31 24 ...
+ $ pm10: num [1:18390] 25 29 NA 16 18 16 13 21 17 14 ...
+ $ o3  : num [1:18390] 10 10 NA 8 9 8 12 16 8 14 ...
+ $ no2 : num [1:18390] NA NA NA NA NA NA NA NA NA NA ...
+ $ so2 : num [1:18390] 2 2 NA 1 1 4 3 3 3 3 ...
+ $ co  : num [1:18390] 5 5 NA 3 2 4 3 5 5 6 ...
+ $ psi : num [1:18390] NA NA NA NA NA NA NA NA NA NA ...
+ - attr(*, "spec")=
+  .. cols(
+  ..   Area = col_character(),
+  ..   date = col_character(),
+  ..   pm25 = col_double(),
+  ..   pm10 = col_double(),
+  ..   o3 = col_double(),
+  ..   no2 = col_double(),
+  ..   so2 = col_double(),
+  ..   co = col_double(),
+  ..   psi = col_double()
+  .. )
+ - attr(*, "problems")=&lt;externalptr&gt; </code></pre>
 </div>
 </div>
-<p>hello I’m jia jia</p>
-<p>Sawaddee ka :)</p>
+</section>
+<section id="weather-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="weather-dataset">Weather Dataset</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(weather)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>spc_tbl_ [7,305 × 14] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+ $ Area                         : chr [1:7305] "South" "South" "South" "South" ...
+ $ Station                      : chr [1:7305] "Marina Barrage" "Marina Barrage" "Marina Barrage" "Marina Barrage" ...
+ $ Year                         : num [1:7305] 2016 2016 2016 2016 2016 ...
+ $ Month                        : num [1:7305] 9 9 9 9 9 9 9 9 9 9 ...
+ $ Day                          : num [1:7305] 1 2 3 4 5 6 7 8 9 10 ...
+ $ Daily Rainfall Total (mm)    : chr [1:7305] "4.6" "0.0" "0.0" "0.0" ...
+ $ Highest 30 Min Rainfall (mm) : chr [1:7305] "2.0" "0.0" "0.0" "0.0" ...
+ $ Highest 60 Min Rainfall (mm) : chr [1:7305] "3.8" "0.0" "0.0" "0.0" ...
+ $ Highest 120 Min Rainfall (mm): chr [1:7305] "4.6" "0.0" "0.0" "0.0" ...
+ $ Mean Temperature (°C)        : chr [1:7305] "27.6" "29.0" "29.9" "29.8" ...
+ $ Maximum Temperature (°C)     : chr [1:7305] "32.8" "33.3" "33.9" "33.5" ...
+ $ Minimum Temperature (°C)     : chr [1:7305] "24.1" "25.9" "26.9" "27.8" ...
+ $ Mean Wind Speed (km/h)       : chr [1:7305] "14.0" "13.7" "11.9" "11.2" ...
+ $ Max Wind Speed (km/h)        : chr [1:7305] "34.9" "35.3" "31.0" "36.7" ...
+ - attr(*, "spec")=
+  .. cols(
+  ..   Area = col_character(),
+  ..   Station = col_character(),
+  ..   Year = col_double(),
+  ..   Month = col_double(),
+  ..   Day = col_double(),
+  ..   `Daily Rainfall Total (mm)` = col_character(),
+  ..   `Highest 30 Min Rainfall (mm)` = col_character(),
+  ..   `Highest 60 Min Rainfall (mm)` = col_character(),
+  ..   `Highest 120 Min Rainfall (mm)` = col_character(),
+  ..   `Mean Temperature (°C)` = col_character(),
+  ..   `Maximum Temperature (°C)` = col_character(),
+  ..   `Minimum Temperature (°C)` = col_character(),
+  ..   `Mean Wind Speed (km/h)` = col_character(),
+  ..   `Max Wind Speed (km/h)` = col_character()
+  .. )
+ - attr(*, "problems")=&lt;externalptr&gt; </code></pre>
+</div>
+</div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

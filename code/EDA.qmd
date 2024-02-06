@@ -1,0 +1,52 @@
+---
+title: "Exploratory Data Analysis"
+subtitle: ""
+date: February 05, 2024
+date-modified:  last-modified
+format:
+  html:
+    toc: true
+    number-sections: false
+    code-line-numbers: false
+    
+execute: 
+  eval: true
+  echo: true
+  warning: false  
+
+draft: true
+---
+
+## Getting Started
+
+### Load libraries
+
+```{r}
+pacman::p_load(tidyverse, haven,
+               ggrepel, ggthemes,
+               ggridges, ggdist,
+               patchwork, ggpattern,
+               hrbrthemes)
+```
+
+### Import data
+
+```{r}
+pollutants <- read_csv("../data/pollutants_singapore.csv", locale = locale(encoding = "ISO-8859-1"))
+weather <- read_csv("../data/weather_singapore_2014_to_2017.csv", locale = locale(encoding = "ISO-8859-1"))
+```
+
+## Understanding the data
+
+::: panel-tabset
+
+### Pollutants Dataset
+```{r}
+str(pollutants)
+```
+### Weather Dataset
+
+```{r}
+str(weather)
+```
+
