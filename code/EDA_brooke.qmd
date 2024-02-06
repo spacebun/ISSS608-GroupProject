@@ -50,9 +50,6 @@ na_count_w <- sapply(weather, function(y) sum(length(which(is.na(y)))))
 
 zero_count_w <- sapply(weather, function(y) sum(y == 0, na.rm = TRUE))
 zero_count_w
-
-nodata_count_w <- sapply(weather, function(y) sum(y == , na.rm = TRUE))
-nodata_count_w
 ```
 
 # drop missing values
