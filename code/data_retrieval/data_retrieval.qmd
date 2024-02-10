@@ -1,0 +1,120 @@
+---
+title: "Data Retrieval"
+subtitle: ""
+date: February 09, 2024
+date-modified:  last-modified
+format:
+  html:
+    toc: true
+    number-sections: false
+    code-line-numbers: false
+    
+execute: 
+  eval: true
+  echo: true
+  warning: false  
+
+draft: true
+---
+
+::: callout-note
+page in draft mode
+:::
+
+# Climate Historical Daily Records
+
+The Climate Historical Daily Records of various climate stations in Singapore can be retrieved from [here](http://www.weather.gov.sg/climate-historical-daily/). However, as the data is available in .csv files for each month, we have written the below code to:
+
+1.   retrieve all the available climate historical daily records
+2.  compile the data into a single .csv file
+
+::: callout-note
+The availability of observational data and duration of records vary across stations. Manual observations were gradually replaced by automated meteorological instruments from 2009.
+
+[This file](http://www.weather.gov.sg/wp-content/uploads/2022/06/Station_Records.pdf) contains the list of stations, weather parameters and periods of records available. The file has been saved as an .XLSX file, and the respective station codes have been added to the .XLSX file.
+:::
+
+## Getting Started
+
+### Load required libraries
+
+-   `httr` will be used for making HTTP requests, downloading, and saving files
+
+```{r}
+pacman::p_load(httr, readxl, dplyr, readr)
+```
+
+## Download data: Climate **Historical Daily Records**
+
+First, retrieve the list of station codes from the file Station_Records.xlsx.
+
+```{r}
+#| eval: false
+station_records <- read_excel("../../data/Station_Records.xlsx")
+
+# Obtain a list of station codes
+station_codes <- station_records$`Station Code`
+```
+
+Next, loop through all 63 station codes from the time period of Jan 2014 to Dec 2023 and download all files available for each station.
+
+```{r}
+#| eval: false
+# Set base URL template and save directory
+base_url_template <- "http://www.weather.gov.sg/files/dailydata/DAILYDATA_%s_%d%s.csv"
+save_directory <- "../../data/raw_climate_historical_daily_records"
+dir.create(save_directory, recursive = TRUE, showWarnings = FALSE)
+
+# Loop through each station code
+for (station_code in station_codes) {
+  # Loop through each year and month
+  for (year in 2014:2023) {
+    for (month in 1:12) {
+      # Format the month properly as a string
+      month_str <- sprintf("%02d", month)
+      
+      # Construct the full URL
+      file_url <- sprintf(base_url_template, station_code, year, month_str)
+      
+      # Make the request and save the file
+      response <- GET(file_url)
+      
+      # Check if the request was successful (status code 200)
+      if (status_code(response) == 200) {
+        file_path <- sprintf("%s/DAILYDATA_%s_%d%s.csv", save_directory, station_code, year, month_str)
+        writeBin(content(response, "raw"), file_path)
+        print(paste("Downloaded:", file_path))
+      } else {
+        print(paste("Failed to download:", file_url))
+      }
+    }
+  }
+}
+
+print("Download process completed for all stations.")
+```
+
+The next few steps were completed in python due to better efficiency in handling large amount of .CSV files with varying encoding.
+
+-   Combine all downloaded CSV files into one dataframe.
+-   Performing cleaning to merge data of columns with slightly different names due to case sensitivity (e.g., "min" vs. "Min")
+  -   ('Highest 30 **Min** Rainfall (mm)', 'Highest 30 **min** Rainfall (mm)')
+  -   ('Highest 60 **Min** Rainfall (mm)', 'Highest 60 **min** Rainfall (mm)')
+  -   ('Highest 120 **Min** Rainfall (mm)', 'Highest 120 **min** Rainfall (mm)')
+-   Add the latitude and longitude of each station to the dataframe.
+
+
+To load this CSV file for climate historical daily records in the future, follow the code in the code chunk below. 
+```{r}
+weather_data <- read_csv("../../data/climate_historical_daily_records.csv") 
+```
+
+# Air Quality
+
+*Done in python: Combined the 5 air quality .CSV files into a single CSV file, and adding area as a column in the CSV file.
+
+
+To load the data for air quality in the future, follow the code in the code chunk below. 
+```{r}
+pollutants_data <- read_csv("../../data/pollutants_singapore.csv") 
+```

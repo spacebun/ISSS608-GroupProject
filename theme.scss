@@ -1,0 +1,118 @@
+/*-- scss:functions --*/
+
+/*-- scss:defaults --*/
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+// Colors
+$slate-green: #4B787D;
+$dark-blue: #163759;
+$gray: #64605f;
+$blue: #4d5887;
+$pale-green: #C3F4DD;
+$orange: #FCD073;
+$salmon:  #D86171;
+
+
+$space-cadet: #1B264F;
+$marian-blue: #274690;
+$true-blue: #4062BB;
+$jet: #302B27;
+$white-smoke:#F5F3F5;
+$ultraviolet: #52489C;
+$delft-blue: #3D405B;
+$gunmetal: #2D3142;
+$robin-egg-blue: #59C3C3;
+$coral: #EF8354;
+$sunglow: #FFD23F;
+$sunset: #F2CC8F;
+$eggshell: #F4F1DE;
+$bright-pink: #F45B69;
+$rosewood: #570000;
+$mint-cream: #F6FFF8;
+$white: #FFFFFF;
+$light-gray: #dfdfeb;
+ 
+// Base document colors
+$navbar-bg: $space-cadet; // navbar
+$navbar-fg: $white-smoke; // navbar foreground elements
+$navbar-hl: $eggshell; // highlight color when hovering over navbar links
+$body-bg: $white; // page background 
+$body-color: $jet; // page text 
+$footer-bg: $light-gray; // footer 
+$link-color: $delft-blue; // hyperlinks 
+
+// fonts
+
+$font-family: 'Roboto', sans-serif;
+
+//toc 
+$toc-font-size: 14px;
+$toc-active-border: $jet;
+
+/*-- scss:rules --*/
+
+.title {
+    margin-top: 2em !important;
+    margin-bottom: 1.5em;
+    font-size: 36px;
+    font-weight: 900;
+    color: $gunmetal; 
+}
+
+.subtitle {
+  font-size: 24px;
+  color: $delft-blue;
+  font-family: $font-family;
+}
+
+
+body {
+    font-size: 14px;
+    font-family: $font-family;
+    color: $gunmetal; 
+}
+
+.left {
+    text-align: left;
+    padding-left: 1em;
+}
+.right {
+    text-align: right;
+    padding-right: 1em;
+}
+
+
+/* Heading 1 */
+h1 {
+    font-size: 28px;
+    font-variant: bold; 
+    font-weight: 900; 
+}
+
+/* Heading 2 */
+h2 {
+    font-size: 24px;
+    font-variant: bold; 
+    font-weight: 900; 
+}
+
+/* Heading 3 */
+h3 {
+    font-size: 20px;
+    font-variant: bold; 
+    font-weight: 900; 
+}
+
+/* Heading 4 */
+h4 {
+    font-size: 18px;
+    font-variant: bold; 
+    font-weight: 700; 
+}
+
+/* Heading 5 */
+h5 {
+    font-size: 18px;
+    font-variant: italic; 
+    font-weight: 700; 
+}

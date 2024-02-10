@@ -2,15 +2,64 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "ISSS608-Group-Test",
+    "title": "AirWeather Analytics",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\n\n1 + 1\n\n[1] 2\n\n\nhello I’m jia jia\nSawaddee ka :)"
+    "text": "In Singapore, while there has been significant research on climate change, the relationship between changing weather patterns and air quality has not been thoroughly explored. While The National Environment Agency in Singapore has made historical weather and air quality data accessible, there remains a shortage of user-friendly tools to effectively visualize and analyze this data for a deeper understanding of its implications. Exploring these datasets within a visual analytics environment can provide valuable insights for various users, from policymakers to the general public.\nAt present, there are few or limited visualization tools available to explore Singapore’s historical weather and air quality data. The few tools available are constrained by static displays and limited analytical depth, and do not capture the complex temporal and spatial nature of the data. They also lack of interactivity or advanced analytical functions, and are unable to explore the relationship between air pollutants and weather parameters.\nTo address this gap, we will attempt to develop an interactive R Shiny application tailored for the exploration of Singapore’s historical weather and air quality data."
   },
   {
     "objectID": "about.html",
     "href": "about.html",
-    "title": "About",
+    "title": "About the team",
     "section": "",
-    "text": "About this site\n\n1 + 1\n\n[1] 2"
+    "text": "Coming soon~"
+  },
+  {
+    "objectID": "proposal/proposal.html",
+    "href": "proposal/proposal.html",
+    "title": "Proposal",
+    "section": "",
+    "text": "In Singapore, while there has been significant research on climate change, the relationship between changing weather patterns and air quality has not been thoroughly explored. While The National Environment Agency in Singapore has made historical weather and air quality data accessible, there remains a shortage of user-friendly tools to effectively visualize and analyze this data for a deeper understanding of its implications. Exploring these datasets within a visual analytics environment can provide valuable insights for various users, from policymakers to the general public."
+  },
+  {
+    "objectID": "proposal/proposal.html#motivation",
+    "href": "proposal/proposal.html#motivation",
+    "title": "Proposal",
+    "section": "",
+    "text": "In Singapore, while there has been significant research on climate change, the relationship between changing weather patterns and air quality has not been thoroughly explored. While The National Environment Agency in Singapore has made historical weather and air quality data accessible, there remains a shortage of user-friendly tools to effectively visualize and analyze this data for a deeper understanding of its implications. Exploring these datasets within a visual analytics environment can provide valuable insights for various users, from policymakers to the general public."
+  },
+  {
+    "objectID": "proposal/proposal.html#the-problems-addressed",
+    "href": "proposal/proposal.html#the-problems-addressed",
+    "title": "Proposal",
+    "section": "The problems addressed",
+    "text": "The problems addressed\nThere are some visualizations made available by the government for climate trends and air quality through websites like Weather.gov.sg and the Haze Information Portal. However, these tools have some limitations:\n\nThe current tools predominantly feature basic, static visualizations fixed to specific timeframes, such as choropleth maps or maps with callouts. They lack interactivity that can display the spatial and temporal nature of the data across different areas in Singapore.\nThere are no available tools with advanced analytical functions, such as anomaly detection, time series analysis, and future projection. Users are limited in observing trends in climate or air quality.\nMoreover, there is no integrated tool to explore, visualize and analyse the relationship between air pollutants and weather parameters (temperature, wind, and rainfall).\n\nThis project aims to overcome the identified problems by developing an intuitive and visual analytics tool that allows one to explore historical weather and air quality in Singapore."
+  },
+  {
+    "objectID": "proposal/proposal.html#relevant-related-work",
+    "href": "proposal/proposal.html#relevant-related-work",
+    "title": "Proposal",
+    "section": "Relevant related work",
+    "text": "Relevant related work\nThis section will briefly discuss on some of relevant works that have already been done regarding weather and air quality.\n\nIn Haze Information Portal website managed by National Environment Agency (NEA), air quality in Singapore is displayed through Pollutant Standards Index (PSI) and PM 2.5 indicators. The visualization presents current air quality condition in an hourly and a 24-hour overview. Also, they have categorized air quality into different groups for users to easily understand the current conditions. However, while the platform allows users to display air quality in specified areas immediately, it limits them to conduct comparative analysis across different regions or scope into historical data trends. Furthermore, the platform lacks forecasting tools which could enhance users more insightful information.\n\n\n\nMeteorological Service Singapore website has a section to view historical daily weather record in Singapore. Users can select various regions and retrieve climate data from different months and years. The interactive map provides a geographical plot of the data for users to select the areas. However, it lacks time series visualization that would allow users to analyse weather trends over multiple years. Moreover, the platform also does not support comparative analysis between different area in which it would be useful for understanding climate variation across different areas within Singapore.\n\n\n\nWorld Weather map website provides an interactive global map that shows an information of various weather parameters, including temperature, precipitation, humidity, pressure, cloud, visibility, and wind. It also offers historical weather data for the past five days. This is a valuable resource for users to understand recent weather trends. However, the platform does not offer data specific to different areas in Singapore. Additionally, there is no forecast data and comparative analysis tools. Thus, it restricts users to anticipate future weather conditions or compare weather trends across different locations in Singapore."
+  },
+  {
+    "objectID": "proposal/proposal.html#our-solution",
+    "href": "proposal/proposal.html#our-solution",
+    "title": "Proposal",
+    "section": "Our solution",
+    "text": "Our solution\nUsing various R packages, we will analyse and visualize weather and air quality across different areas in Singapore and build an interactive R Shiny application. Users will be able to:\n\nInteractively explore customizable and dynamic visualizations that display weather and air quality data over time and across different regions in Singapore.\nUse selected analytical functions to highlight key patterns, identify anomalies, and make projections about future climate and air quality.\nExplore and visualize the interrelationship between various air pollutants and weather parameters like temperature, wind speed, and rainfall."
+  },
+  {
+    "objectID": "proposal/proposal.html#the-data",
+    "href": "proposal/proposal.html#the-data",
+    "title": "Proposal",
+    "section": "The Data",
+    "text": "The Data\nThe following datasets will be used:\n\n\n\n\n\n\n\n\n\nDataset\nFrequency\nPeriod\nSource\n\n\n\n\nClimate Historical Daily Records for various stations in Singapore\n(rainfall, temperature and wind speed)\nDaily\nPeriod varies across stations but approx. 2014 – 2023\nhttp://www.weather.gov.sg/climate-historical-daily/\n\n\nAir quality for 5 locations in Singapore\n(PM2.5, PM10, O3, NO2, SO2, CO, PSI)\nDaily\nJan 1975 – Dec 2023\nhttp://www.weather.gov.sg/climate-historical-daily/\n\n\nAir Temperature And Sunshine, Relative Humidity And Rainfall\n(Changi climate station)\nMonthly\nJan 1975 – Dec 2023\nM890081_monthly_temp&rain_197501-202312.csv\nhttps://tablebuilder.singstat.gov.sg/table/TS/M890081"
+  },
+  {
+    "objectID": "proposal/proposal.html#approach-and-prototypes",
+    "href": "proposal/proposal.html#approach-and-prototypes",
+    "title": "Proposal",
+    "section": "Approach and Prototypes",
+    "text": "Approach and Prototypes\n\n1. Bird’s Eye View of Weather and Air Quality\nThis module will show dynamic, interactive map with option to include both weather and air quality data across 5 key areas in Singapore. Users will be able to select different time frames and regions for detailed examination.\nPrototype Features:\n\nInteractive mapping tool with zoom and pan functions.\nLayer selection for various weather and air quality parameters.\nTime slider to view data across different historical periods.\nRegion-specific data display upon selection.\n\n\n\n\n2. Time-series Toolkit\nThis module enables users to forecast future climate conditions using historical data from 1975 to 2023. It offers interactive tools for model selection, prediction adjustments, and visualizes forecasts alongside historical data.\nPrototype Features:\n\nModel selection from a list of forecasting models (e.g., Linear Regression, ARIMA, Prophet) via checkbox\nFlexible selection for variables, period, forecast horizon and prediction parameters.\nDynamic Prediction Charts to Visualize past trends and future projections.\n\nFollowing R packages will be used in this section:\n\nLubridate (CRAN - Package lubridate (r-project.org)) : fast and user friendly parsing of date-time data, extraction and updating of components of a date-time\nTimetk (CRAN - Package timetk (r-project.org)) : Easy visualization, wrangling, and feature engineering of time series data for forecasting and machine learning prediction.\nModeltime (CRAN - Package modeltime (r-project.org)) : Time series forecasting framework with models including ARIMA, Exponential Smoothing, and additional time series models from the ‘forecast’ and ‘prophet’ packages\n\n\n\n\n3. Climate-Pollutant Relationship Explorer"
   }
 ]

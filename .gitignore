@@ -6,3 +6,5 @@
 .quarto
 
 /.quarto/
+raw_climate_historical_daily_records/
+data/

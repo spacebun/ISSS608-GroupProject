@@ -2,29 +2,44 @@ project:
   type: website
 
 website:
-  title: "Weatherwise or Otherwise"
+  title: "AirWeather Analytics"
+  image: "images/sunny.svg"
+  favicon: "images/sunny.svg"
   navbar:
-    left:
-      - href: index.qmd
-        text: Home
-      
-      - text: Project Proposal
-        href: Project_Proposal.html
+    logo: "images/spacebunny-banner.png"
+    title: false
+    collapse-below: lg
+    background: "#1B264F"
+    right:
+      - text: "Proposal"
+        href: proposal/proposal.html
       - text: Prototyping
         menu:
+          - text: Data Retrieval and Wrangling
+            href: code/data_retrieval/data_retrieval.html
           - text: Exploratory Data Analysis
-            href: code/EDA.html
-      - text: Shiny App
-        href: app.html
-      - text: Project Poster
-        href: project_poster.pdf
-      - about.qmd
+            href: code/EDA/EDA.html
+      - text: "Shiny App"
+        menu:
+          - text: "User Guide"
+            href: shinyapp/shinyappuserguide.html
+          - text: "Shiny App"
+            href: shinyapp/shinyapp.html
+      - text: "Project Poster"
+        href: poster/poster.html
+      - text: "The Team"
+        href: about.html
+
 
 format:
   html:
-    theme: cosmo
+    theme: 
+      - theme.scss
     css: styles.css
     toc: true
+    highlight-style: tango
+    code-copy: hover
+    code-overflow: wrap
 
 editor: visual
 

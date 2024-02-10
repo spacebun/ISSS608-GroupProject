@@ -1,9 +1,5 @@
 ---
-title: "About"
+title: "About the team"
 ---
 
-About this site
-
-```{r}
-1 + 1
-```
+Coming soon\~

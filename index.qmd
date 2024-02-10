@@ -1,15 +1,10 @@
 ---
-title: "ISSS608-Group-Test"
+title: "AirWeather Analytics"
+subtitle: "A Visual Exploration Tool for Singapore's Climate and Air Quality"
 ---
 
-This is a Quarto website.
+In Singapore, while there has been significant research on climate change, the relationship between changing weather patterns and air quality has not been thoroughly explored. While The National Environment Agency in Singapore has made historical weather and air quality data accessible, there remains a shortage of user-friendly tools to effectively visualize and analyze this data for a deeper understanding of its implications. Exploring these datasets within a visual analytics environment can provide valuable insights for various users, from policymakers to the general public.
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+At present, there are few or limited visualization tools available to explore Singapore’s historical weather and air quality data. The few tools available are constrained by static displays and limited analytical depth, and do not capture the complex temporal and spatial nature of the data. They also lack of interactivity or advanced analytical functions, and are unable to explore the relationship between air pollutants and weather parameters.
 
-```{r}
-1 + 1
-```
-
-hello I'm jia jia
-
-Sawaddee ka :)
+To address this gap, we will attempt to develop an interactive R Shiny application tailored for the exploration of Singapore's historical weather and air quality data.
