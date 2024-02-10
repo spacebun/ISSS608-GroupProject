@@ -3,10 +3,10 @@ project:
 
 website:
   title: "AirWeather Analytics"
-  image: "images/sunny.svg"
-  favicon: "images/sunny.svg"
+  image: "images/sunny.png"
+  favicon: "images/sunny.png"
   navbar:
-    logo: "images/spacebunny-banner.png"
+    logo: "images/sunny.png"
     title: false
     collapse-below: lg
     background: "#1B264F"

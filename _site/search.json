@@ -1,19 +1,5 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "AirWeather Analytics",
-    "section": "",
-    "text": "In Singapore, while there has been significant research on climate change, the relationship between changing weather patterns and air quality has not been thoroughly explored. While The National Environment Agency in Singapore has made historical weather and air quality data accessible, there remains a shortage of user-friendly tools to effectively visualize and analyze this data for a deeper understanding of its implications. Exploring these datasets within a visual analytics environment can provide valuable insights for various users, from policymakers to the general public.\nAt present, there are few or limited visualization tools available to explore Singapore’s historical weather and air quality data. The few tools available are constrained by static displays and limited analytical depth, and do not capture the complex temporal and spatial nature of the data. They also lack of interactivity or advanced analytical functions, and are unable to explore the relationship between air pollutants and weather parameters.\nTo address this gap, we will attempt to develop an interactive R Shiny application tailored for the exploration of Singapore’s historical weather and air quality data."
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About the team",
-    "section": "",
-    "text": "Coming soon~"
-  },
-  {
     "objectID": "proposal/proposal.html",
     "href": "proposal/proposal.html",
     "title": "Proposal",
@@ -61,5 +47,19 @@
     "title": "Proposal",
     "section": "Approach and Prototypes",
     "text": "Approach and Prototypes\n\n1. Bird’s Eye View of Weather and Air Quality\nThis module will show dynamic, interactive map with option to include both weather and air quality data across 5 key areas in Singapore. Users will be able to select different time frames and regions for detailed examination.\nPrototype Features:\n\nInteractive mapping tool with zoom and pan functions.\nLayer selection for various weather and air quality parameters.\nTime slider to view data across different historical periods.\nRegion-specific data display upon selection.\n\n\n\n\n2. Time-series Toolkit\nThis module enables users to forecast future climate conditions using historical data from 1975 to 2023. It offers interactive tools for model selection, prediction adjustments, and visualizes forecasts alongside historical data.\nPrototype Features:\n\nModel selection from a list of forecasting models (e.g., Linear Regression, ARIMA, Prophet) via checkbox\nFlexible selection for variables, period, forecast horizon and prediction parameters.\nDynamic Prediction Charts to Visualize past trends and future projections.\n\nFollowing R packages will be used in this section:\n\nLubridate (CRAN - Package lubridate (r-project.org)) : fast and user friendly parsing of date-time data, extraction and updating of components of a date-time\nTimetk (CRAN - Package timetk (r-project.org)) : Easy visualization, wrangling, and feature engineering of time series data for forecasting and machine learning prediction.\nModeltime (CRAN - Package modeltime (r-project.org)) : Time series forecasting framework with models including ARIMA, Exponential Smoothing, and additional time series models from the ‘forecast’ and ‘prophet’ packages\n\n\n\n\n3. Climate-Pollutant Relationship Explorer"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About the team",
+    "section": "",
+    "text": "Coming soon~"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "AirWeather Analytics",
+    "section": "",
+    "text": "In Singapore, while there has been significant research on climate change, the relationship between changing weather patterns and air quality has not been thoroughly explored. While The National Environment Agency in Singapore has made historical weather and air quality data accessible, there remains a shortage of user-friendly tools to effectively visualize and analyze this data for a deeper understanding of its implications. Exploring these datasets within a visual analytics environment can provide valuable insights for various users, from policymakers to the general public.\nAt present, there are few or limited visualization tools available to explore Singapore’s historical weather and air quality data. The few tools available are constrained by static displays and limited analytical depth, and do not capture the complex temporal and spatial nature of the data. They also lack of interactivity or advanced analytical functions, and are unable to explore the relationship between air pollutants and weather parameters.\nTo address this gap, we will attempt to develop an interactive R Shiny application tailored for the exploration of Singapore’s historical weather and air quality data.\nRead our proposal here."
   }
 ]

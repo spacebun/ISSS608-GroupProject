@@ -8,3 +8,5 @@ In Singapore, while there has been significant research on climate change, the r
 At present, there are few or limited visualization tools available to explore Singapore’s historical weather and air quality data. The few tools available are constrained by static displays and limited analytical depth, and do not capture the complex temporal and spatial nature of the data. They also lack of interactivity or advanced analytical functions, and are unable to explore the relationship between air pollutants and weather parameters.
 
 To address this gap, we will attempt to develop an interactive R Shiny application tailored for the exploration of Singapore's historical weather and air quality data.
+
+Read our proposal [here](proposal/proposal.html).

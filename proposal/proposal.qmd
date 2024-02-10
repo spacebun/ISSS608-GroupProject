@@ -27,7 +27,7 @@ There are some visualizations made available by the government for climate trend
 
 -   There are no available tools with advanced analytical functions, such as anomaly detection, time series analysis, and future projection. Users are limited in observing trends in climate or air quality.
 
--    Moreover, there is no integrated tool to explore, visualize and analyse the relationship between air pollutants and weather parameters (temperature, wind, and rainfall).
+-   Moreover, there is no integrated tool to explore, visualize and analyse the relationship between air pollutants and weather parameters (temperature, wind, and rainfall).
 
 This project aims to overcome the identified problems by developing an intuitive and visual analytics tool that allows one to explore historical weather and air quality in Singapore.
 
@@ -53,27 +53,27 @@ Using various R packages, we will analyse and visualize weather and air quality 
 
 1.  Interactively explore customizable and dynamic visualizations that display weather and air quality data over time and across different regions in Singapore.
 2.  Use selected analytical functions to highlight key patterns, identify anomalies, and make projections about future climate and air quality.
-3.   Explore and visualize the interrelationship between various air pollutants and weather parameters like temperature, wind speed, and rainfall.
+3.  Explore and visualize the interrelationship between various air pollutants and weather parameters like temperature, wind speed, and rainfall.
 
 ## The Data
 
 The following datasets will be used:
 
-+--------------------------------------------------------------------+-----------+-------------------------------+-------------------------------------------------------------+
-| Dataset                                                            | Frequency | Period                        | Source                                                      |
-+====================================================================+===========+===============================+=============================================================+
-| Climate Historical Daily Records for various stations in Singapore | Daily     | Period varies across stations | http://www.weather.gov.sg/climate-historical-daily/         |
-|                                                                    |           | but approx. 2014 – 2023       |                                                             |
-| (rainfall, temperature and wind speed)                             |           |                               |                                                             |
-+--------------------------------------------------------------------+-----------+-------------------------------+-------------------------------------------------------------+
-| Air quality for 5 locations in Singapore                           | Daily     | Jan 1975 – Dec 2023           | http://www.weather.gov.sg/climate-historical-daily/         |
-|                                                                    |           |                               |                                                             |
-| (PM2.5, PM10, O3, NO2, SO2, CO, PSI)                               |           |                               |                                                             |
-+--------------------------------------------------------------------+-----------+-------------------------------+-------------------------------------------------------------+
-| Air Temperature And Sunshine, Relative Humidity And Rainfall       | Monthly   | Jan 1975 – Dec 2023           | M890081_monthly_temp&rain_197501-202312.csv                 |
-|                                                                    |           |                               |                                                             |
-| (Changi climate station)                                           |           |                               | https://tablebuilder.singstat.gov.sg/table/TS/M890081       |
-+--------------------------------------------------------------------+-----------+-------------------------------+-------------------------------------------------------------+
++--------------------------------------------------------------------+-----------+-------------------------------------------------------+-------------------------------------------------------+
+| Dataset                                                            | Frequency | Period                                                | Source                                                |
++====================================================================+===========+=======================================================+=======================================================+
+| Climate Historical Daily Records for various stations in Singapore | Daily     | Period varies across stations but approx. 2014 – 2023 | http://www.weather.gov.sg/climate-historical-daily/   |
+|                                                                    |           |                                                       |                                                       |
+| (rainfall, temperature and wind speed)                             |           |                                                       |                                                       |
++--------------------------------------------------------------------+-----------+-------------------------------------------------------+-------------------------------------------------------+
+| Air quality for 5 locations in Singapore                           | Daily     | Jan 1975 – Dec 2023                                   | http://www.weather.gov.sg/climate-historical-daily/   |
+|                                                                    |           |                                                       |                                                       |
+| (PM2.5, PM10, O3, NO2, SO2, CO, PSI)                               |           |                                                       |                                                       |
++--------------------------------------------------------------------+-----------+-------------------------------------------------------+-------------------------------------------------------+
+| Air Temperature And Sunshine, Relative Humidity And Rainfall       | Monthly   | Jan 1975 – Dec 2023                                   | M890081_monthly_temp&rain_197501-202312.csv           |
+|                                                                    |           |                                                       |                                                       |
+| (Changi climate station)                                           |           |                                                       | https://tablebuilder.singstat.gov.sg/table/TS/M890081 |
++--------------------------------------------------------------------+-----------+-------------------------------------------------------+-------------------------------------------------------+
 
 ## Approach and Prototypes
 
