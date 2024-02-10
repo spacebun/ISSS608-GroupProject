@@ -59,21 +59,21 @@ Using various R packages, we will analyse and visualize weather and air quality 
 
 The following datasets will be used:
 
-+--------------------------------------------------------------------+-----------+-------------------------------------------------------+-------------------------------------------------------+
-| Dataset                                                            | Frequency | Period                                                | Source                                                |
-+====================================================================+===========+=======================================================+=======================================================+
-| Climate Historical Daily Records for various stations in Singapore | Daily     | Period varies across stations but approx. 2014 – 2023 | http://www.weather.gov.sg/climate-historical-daily/   |
-|                                                                    |           |                                                       |                                                       |
-| (rainfall, temperature and wind speed)                             |           |                                                       |                                                       |
-+--------------------------------------------------------------------+-----------+-------------------------------------------------------+-------------------------------------------------------+
-| Air quality for 5 locations in Singapore                           | Daily     | Jan 1975 – Dec 2023                                   | http://www.weather.gov.sg/climate-historical-daily/   |
-|                                                                    |           |                                                       |                                                       |
-| (PM2.5, PM10, O3, NO2, SO2, CO, PSI)                               |           |                                                       |                                                       |
-+--------------------------------------------------------------------+-----------+-------------------------------------------------------+-------------------------------------------------------+
-| Air Temperature And Sunshine, Relative Humidity And Rainfall       | Monthly   | Jan 1975 – Dec 2023                                   | M890081_monthly_temp&rain_197501-202312.csv           |
-|                                                                    |           |                                                       |                                                       |
-| (Changi climate station)                                           |           |                                                       | https://tablebuilder.singstat.gov.sg/table/TS/M890081 |
-+--------------------------------------------------------------------+-----------+-------------------------------------------------------+-------------------------------------------------------+
++--------------------------------------------------------------------+-------------+-------------------------------------------------------+-------------------------------------------------------+
+| Dataset                                                            | Frequency   | Period                                                | Source                                                |
++====================================================================+=============+=======================================================+=======================================================+
+| Climate Historical Daily Records for various stations in Singapore | Daily       | Period varies across stations but approx. 2014 – 2023 | http://www.weather.gov.sg/climate-historical-daily/   |
+|                                                                    |             |                                                       |                                                       |
+| (rainfall, temperature and wind speed)                             |             |                                                       |                                                       |
++--------------------------------------------------------------------+-------------+-------------------------------------------------------+-------------------------------------------------------+
+| Air quality for 5 locations in Singapore                           | Daily       | Jan 1975 – Dec 2023                                   | http://www.weather.gov.sg/climate-historical-daily/   |
+|                                                                    |             |                                                       |                                                       |
+| (PM2.5, PM10, O3, NO2, SO2, CO, PSI)                               |             |                                                       |                                                       |
++--------------------------------------------------------------------+-------------+-------------------------------------------------------+-------------------------------------------------------+
+| Air Temperature And Sunshine, Relative Humidity And Rainfall       | Monthly     | Jan 1975 – Dec 2023                                   | M890081_monthly_temp&rain_197501-202312.csv           |
+|                                                                    |             |                                                       |                                                       |
+| (Changi climate station)                                           |             |                                                       | https://tablebuilder.singstat.gov.sg/table/TS/M890081 |
++--------------------------------------------------------------------+-------------+-------------------------------------------------------+-------------------------------------------------------+
 
 ## Approach and Prototypes
 
@@ -83,15 +83,39 @@ This module will show dynamic, interactive map with option to include both weath
 
 **Prototype Features:**
 
--   Interactive mapping tool with zoom and pan functions.
+-   Tab 1: **Map**
 
--   Layer selection for various weather and air quality parameters.
+    -   Interactive mapping tool with zoom and pan functions.
 
--   Time slider to view data across different historical periods.
+    -   Layer selection for various weather and air quality parameters.
 
--   Region-specific data display upon selection.
+    -   Time slider to view data across different historical periods.
 
-![](images/clipboard-652698470.png)
+    -   Region-specific data display upon selection.
+
+![](images/clipboard-1292530329.png)
+
+-   Tab 2: Plots
+
+    -   Options to select distribution plots for key weather parameters and pollutants by area, including density plots, histograms, and boxplots.
+
+    -   Comparative visualizations with side-by-side evaluations of multiple different areas or variables.
+
+    -   Customizable granularity to observe either monthly or yearly view of the data.
+
+![](images/clipboard-640642760.png)
+
+Following R packages will be used in this section:
+
+-   tidyverse (CRAN - Package tidyverse (r-project.org)): An ecosystem of packages designed for data science that makes it easy to tidy, transform, and visualize data.
+
+-   ggplot2 (CRAN - Package ggplot2 (r-project.org)): A powerful package for creating static, aesthetic, and informative graphics.
+
+-   plotly (CRAN - Package plotly (r-project.org)): Provides a high-level interface to Plotly, enabling the creation of interactive and dynamic visualizations.
+
+-   DT (CRAN - Package DT (r-project.org)): An interface to the JavaScript library DataTables, used to render interactive and rich data tables.
+
+-   sf (CRAN - Package sf (r-project.org)): An R package for handling and analyzing spatial data with simple features, which can interface with leaflet for mapping.
 
 ### **2. Time-series Toolkit**
 
@@ -116,3 +140,25 @@ This module enables users to forecast future climate conditions using historical
 ![](images/clipboard-4134446947.png)
 
 ### 3. Climate-Pollutant Relationship Explorer
+
+This module would enable the user to select different types of plots and variables to be included in plots centered on exploring relationships. Below, we list some possible plots for such analysis:
+
+#### Bubble Plot
+
+This bubble plot, displaying the relationship between daily rainfall, mean temperature, and PM2.5 levels (represented by bubble size), provides a multidimensional view of the data. The plot allows a user to:
+
+-   assess if there are any trends between rainfall and temperature
+
+-   observe how air quality varies with different weather conditions. For example, days with higher rainfall has smaller bubbles (lower PM2.5 levels) in the plot below, suggesting that rain could help reduce air pollution.
+
+![](images/clipboard-2783724441.png)
+
+#### Treemap
+
+This treemap can convey both the PM2.5 pollution levels (through the size of the rectangles) and the mean temperature (through the color of the rectangles) across different areas and stations.
+
+::: callout-warning
+Note that only a small number of selected stations were grouped into different areas for this prototype
+:::
+
+![](images/clipboard-151434396.png)

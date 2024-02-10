@@ -17,10 +17,6 @@ execute:
 draft: true
 ---
 
-# Test
-
-# Test2
-
 ## Getting Started
 
 ### Load libraries
@@ -31,7 +27,9 @@ pacman::p_load(tidyverse, haven,
                ggridges, ggdist,
                patchwork, ggpattern,
                hrbrthemes, plotly,
-               sf, tmap)
+               sf, tmap,
+               lubridate,
+               shiny)
 ```
 
 ### Import data
@@ -41,7 +39,7 @@ pollutants <- read_csv("../../data/pollutants_singapore.csv", locale = locale(en
 ```
 
 ```{r}
-weather <- read_csv("../../data/weather_singapore_2014_to_2017.csv", locale = locale(encoding = "ISO-8859-1"))
+weather <- read_csv("../../data/climate_historical_daily_records.csv") 
 ```
 
 ## Pollutants Dataset
@@ -70,8 +68,8 @@ pollutants <- pollutants %>%
 
 ```{r}
 # Filter data for 2014 - 2017 only 
-pollutants_2014_2017 <- pollutants %>%
-  filter(year(date) >= 2014 & year(date) <= 2017)
+# pollutants_2014_2017 <- pollutants %>%
+#  filter(year(Date) >= 2014 & year(Date) <= 2017)
 ```
 
 ### Plots
@@ -79,33 +77,178 @@ pollutants_2014_2017 <- pollutants %>%
 ```{r}
 # Pollutants over time
 # Reshape data to long format
-pollutants_2014_2017_long <- pollutants_2014_2017 %>%
+pollutants_long <- pollutants %>%
   pivot_longer(cols = c(pm25, pm10, o3, no2, so2, co, psi), names_to = "pollutant", values_to = "value")
 
 # Time series plot for all pollutants
-ggplot(pollutants_2014_2017_long, aes(x = date, y = value, color = pollutant)) +
+ggplot(pollutants_long, aes(x = Date, y = value, color = pollutant)) +
   geom_line() +
-  labs(title = "Pollutants over Time (2014-2017)", x = "Date", y = "Concentration", color = "Pollutant") +
+  labs(title = "Pollutants over Time", x = "Date", y = "Concentration", color = "Pollutant") +
   theme_minimal()
 ```
 
 ```{r}
 # Density plot for PM2.5 across Areas
-ggplot(pollutants_2014_2017, aes(x = pm25, fill = Area)) +
+ggplot(pollutants, aes(x = pm25, fill = Area)) +
   geom_density(alpha = 0.5) +
-  labs(title = "Density Plot of PM2.5 by Area, 2014-2017", x = "PM2.5", y = "Density") +
+  labs(title = "Density Plot of PM2.5 by Area", x = "PM2.5", y = "Density") +
   theme_minimal() +
   scale_fill_discrete(name = "Area")
 
 ```
 
 ```{r}
+# Filter for a specific year, e.g., 2020
+pollutants_filtered <- pollutants %>%
+  filter(year(Date) == 2020)
+
+# Density plot for PM2.5 across Areas for the filtered year
+ggplot(pollutants_filtered, aes(x = pm25, fill = Area)) +
+  geom_density(alpha = 0.5) +
+  labs(title = "Density Plot of PM2.5 by Area for 2020", x = "PM2.5", y = "Density") +
+  theme_minimal() +
+  scale_fill_discrete(name = "Area")
+
+
+```
+
+```{r}
+# Define UI
+ui <- fluidPage(
+  titlePanel("Dynamic Density Plots of Selected Pollutants by Area"),
+  radioButtons("granularity", "Select Granularity", choices = c("Year", "Month")),
+  uiOutput("yearInput"),
+  uiOutput("monthInput"),
+  checkboxGroupInput("selectedAreas", "Select Areas", choices = unique(pollutants$Area)),
+  checkboxGroupInput("selectedPollutants", "Select Pollutants", 
+                     choices = c("PM2.5" = "pm25", "PM10" = "pm10", "O3" = "o3", 
+                                 "NO2" = "no2", "SO2" = "so2", "CO" = "co"),
+                     selected = c("pm25", "pm10", "o3", "no2", "so2", "co")),
+  plotlyOutput("densityPlot")
+)
+
+# Define server logic
+server <- function(input, output, session) {
+  # Dynamic UI for year and month based on granularity selection
+  output$yearInput <- renderUI({
+    if(input$granularity == "Year") {
+      selectInput("year", "Year", choices = unique(year(pollutants$Date)))
+    } else {
+      selectInput("yearMonth", "Year", choices = unique(year(pollutants$Date)))
+    }
+  })
+  
+  output$monthInput <- renderUI({
+    if(input$granularity == "Month") {
+      selectInput("month", "Month", choices = month.abb)
+    }
+  })
+
+  output$densityPlot <- renderPlotly({
+    # Filter data based on selected granularity, areas, and pollutants
+    date_filtered <- if(input$granularity == "Year") {
+      pollutants %>%
+        filter(year(Date) == input$year)
+    } else {
+      pollutants %>%
+        filter(year(Date) == input$yearMonth, month(Date) == match(input$month, month.abb))
+    }
+    
+    pollutants_filtered <- date_filtered %>%
+      filter(Area %in% input$selectedAreas) %>%
+      pivot_longer(cols = input$selectedPollutants, names_to = "Pollutant", values_to = "Value")
+
+    # Create the faceted plot for selected pollutants
+    p <- ggplot(pollutants_filtered, aes(x = Value, fill = Area)) +
+      geom_density(alpha = 0.5) +
+      facet_wrap(~Pollutant, scales = "free") +
+      labs(title = paste("Density Plots of Selected Pollutants by Area", 
+                         if(input$granularity == "Year") { paste("for", input$year) } else { paste("for", input$month, input$yearMonth) }),
+           x = "Concentration", y = "Density") +
+      theme_minimal() +
+      scale_fill_brewer(palette = "Set1", name = "Area")
+    
+    ggplotly(p)
+  })
+}
+
+# Run the app
+shinyApp(ui = ui, server = server)
+
+```
+
+```{r}
 # Boxplot for PM2.5
-ggplot(pollutants_2014_2017, aes(x = Area, y = pm25, fill = Area)) +
+ggplot(pollutants, aes(x = Area, y = pm25, fill = Area)) +
   geom_boxplot(alpha = 0.5) +
   labs(title = "Boxplot of PM2.5 by Area, 2014-2017", x = "Area", y = "PM2.5") +
   theme_minimal() +
   scale_fill_discrete(name = "Area")
+```
+
+```{r}
+# Define UI
+ui <- fluidPage(
+  titlePanel("Dynamic Boxplot of Selected Pollutants by Area"),
+  radioButtons("granularity", "Select Granularity", choices = c("Year", "Month")),
+  uiOutput("yearInput"),
+  uiOutput("monthInput"),
+  checkboxGroupInput("selectedAreas", "Select Areas", choices = unique(pollutants$Area)),
+  checkboxGroupInput("selectedPollutants", "Select Pollutants", 
+                     choices = c("PM2.5" = "pm25", "PM10" = "pm10", "O3" = "o3", 
+                                 "NO2" = "no2", "SO2" = "so2", "CO" = "co"),
+                     selected = "pm25"), # Default to PM2.5 or any other default
+  plotlyOutput("boxPlot")
+)
+
+# Define server logic
+server <- function(input, output, session) {
+  # Dynamic UI for year and month based on granularity selection
+  output$yearInput <- renderUI({
+    if(input$granularity == "Year") {
+      selectInput("year", "Year", choices = unique(year(pollutants$Date)))
+    } else {
+      selectInput("yearMonth", "Year", choices = unique(year(pollutants$Date)))
+    }
+  })
+  
+  output$monthInput <- renderUI({
+    if(input$granularity == "Month") {
+      selectInput("month", "Month", choices = month.abb)
+    }
+  })
+
+  output$boxPlot <- renderPlotly({
+    # Filter data based on selected granularity, areas, and pollutants
+    date_filtered <- if(input$granularity == "Year") {
+      pollutants %>%
+        filter(year(Date) == input$year)
+    } else {
+      pollutants %>%
+        filter(year(Date) == input$yearMonth, month(Date) == match(input$month, month.abb))
+    }
+    
+    pollutants_filtered <- date_filtered %>%
+      filter(Area %in% input$selectedAreas) %>%
+      pivot_longer(cols = input$selectedPollutants, names_to = "Pollutant", values_to = "Value") %>%
+      filter(Pollutant == input$selectedPollutants) # Ensure only selected pollutants are included
+
+    # Create the boxplot for selected pollutants
+    p <- ggplot(pollutants_filtered, aes(x = Area, y = Value, fill = Area)) +
+      geom_boxplot(alpha = 0.5) +
+      facet_wrap(~Pollutant, scales = "free_y") +
+      labs(title = paste("Boxplot of Selected Pollutants by Area", 
+                         if(input$granularity == "Year") { paste("for", input$year) } else { paste("for", input$month, input$yearMonth) }),
+           x = "Area", y = "Concentration") +
+      theme_minimal() +
+      scale_fill_brewer(palette = "Set1", name = "Area")
+    
+    ggplotly(p)
+  })
+}
+
+# Run the app
+shinyApp(ui = ui, server = server)
 ```
 
 ```{r}
@@ -156,9 +299,18 @@ weather <- weather %>%
 ```
 
 ```{r}
-# Convert the data frame to an sf object using the latitude and longitude
-weather_sf <- st_as_sf(weather, coords = c("LONG", "LAT"), crs = 4326)
+# Create a new column in your weather dataframe to indicate whether there was rain on a particular day by checking if the Daily Rainfall Total (mm) is greater than zero. 
+weather <- weather %>%
+  mutate(`Rain Day` = `Daily Rainfall Total (mm)` > 0)
+```
 
+```{r}
+str(weather)
+```
+
+```{r}
+# Convert the data frame to an sf object using the latitude and longitude
+# weather_sf <- st_as_sf(weather, coords = c("LONG", "LAT"), crs = 4326)
 str(weather_sf)
 ```
 
@@ -182,98 +334,304 @@ str(weather_summary)
 ### Rainfall Plots
 
 ```{r}
-# Create a Date column for plotting
-weather$Date <- as.Date(paste(weather$Year, weather$Month, weather$Day, sep = "-"))
+# Assuming the weather data is stored in a variable called weather
+# Filter data for a specific station, if desired
+weather_station <- weather %>%
+  filter(Station == "Paya Lebar")  # replace with your station of interest
 
-# Now, plot the data
-gg <- ggplot(weather, aes(x = Date, y = weather$`Daily Rainfall Total (mm)`, group = Area, color = Area)) +
+ggplot(weather_station, aes(x = Date, y = `Daily Rainfall Total (mm)`)) +
   geom_line() +
-  labs(title = 'Daily Rainfall Across the Years by Area',
-       x = 'Year', 
-       y = 'Daily Rainfall Total (mm)') +
-  theme_minimal() +
-  theme(legend.title = element_blank())
+  labs(title = "Daily Rainfall Total over Time",
+       x = "Date", y = "Rainfall (mm)") +
+  theme_minimal()
+```
 
-# Print the plot
-print(gg)
+```{r}
+# List of stations of interest
+stations <- c("Sentosa Island", "Tuas", "Changi", "Admiralty")
+
+# Filter the data for the specified stations and month (e.g., January)
+weather_selected_stations <- weather %>%
+  filter(Station %in% stations, Month == 1, !is.na(`Daily Rainfall Total (mm)`))
+
+# Create the boxplot
+ggplot(weather_selected_stations, aes(x = Station, y = `Daily Rainfall Total (mm)`, fill = Station)) +
+  geom_boxplot() +
+  labs(title = "Daily Rainfall Total in January across Stations",
+       x = "Station", y = "Daily Rainfall Total (mm)") +
+  scale_fill_brewer(palette = "Set1", name = "Station") +
+  theme_minimal() +
+  theme(legend.position = "none")  # Remove legend if not needed
+```
+
+```{r}
+# List of stations of interest
+stations <- c("Sentosa Island", "Tuas", "Changi", "Admiralty")
+
+# Summarize the data to get the count of rain days per month for each station
+monthly_rain_days <- weather %>%
+  filter(Station %in% stations) %>%
+  group_by(Station, Year, Month) %>%
+  summarise(Rain_Days = sum(`Rain Day`, na.rm = TRUE)) %>%
+  ungroup()
+
+ggplot(monthly_rain_days, aes(x = factor(Month), y = Rain_Days, fill = Station)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_x_discrete(labels = month.abb) +  # Abbreviated month names
+  labs(title = "Number of Rain Days per Month for Selected Stations",
+       x = "Month", y = "Number of Rain Days") +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set1") +
+  facet_wrap(~Station, ncol = 1)  # Separate plot for each station
+
+```
+
+#### Shiny
+
+```{r}
+# Shiny App for only temperature
+# Define UI
+ui <- fluidPage(
+  tags$head(
+    tags$style(HTML("
+      .scrollable-menu {
+        height: auto;
+        max-height: 200px; /* Adjust the height as needed */
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+    "))
+  ),
+  titlePanel("Mean Temperature Density Plot by Station"),
+  sidebarLayout(
+    sidebarPanel(
+      radioButtons("timeGranularity", "Select Time Granularity", choices = c("Year", "Month")),
+      uiOutput("timeInput"),  # Dynamic UI for selecting Year/Month based on granularity
+      # Wrap the checkbox group in a div with a custom class for styling
+      tags$div(class = "scrollable-menu", 
+        checkboxGroupInput("selectedStations", "Choose Stations", choices = unique(weather$Station))
+      )
+    ),
+    mainPanel(
+      plotlyOutput("densityPlot")
+    )
+  )
+)
+
+# Define server logic
+server <- function(input, output) {
+  # Dynamically generate UI for Year/Month selection based on time granularity
+  output$timeInput <- renderUI({
+    if(input$timeGranularity == "Year") {
+      selectInput("selectedYear", "Select Year", choices = unique(weather$Year))
+    } else if(input$timeGranularity == "Month") {
+      tagList(
+        selectInput("selectedYear", "Select Year", choices = unique(weather$Year)),
+        selectInput("selectedMonth", "Select Month", choices = month.abb, selected = "January")
+      )
+    }
+  })
+  
+  output$densityPlot <- renderPlotly({
+    # Handle data filtering based on selected time granularity
+    if(input$timeGranularity == "Year") {
+      filtered_data <- weather %>%
+        filter(Station %in% input$selectedStations, Year == input$selectedYear)
+    } else if(input$timeGranularity == "Month") {
+      month_num <- match(input$selectedMonth, month.abb)
+      filtered_data <- weather %>%
+        filter(Station %in% input$selectedStations, Year == input$selectedYear, Month == month_num)
+    }
+    
+    # Generate the density plot
+    p <- ggplot(filtered_data, aes(x = `Mean Temperature (°C)`, fill = Station)) +
+      geom_density(alpha = 0.5) +
+      labs(title = paste("Density of Mean Temperature across Selected Stations"),
+           x = "Mean Temperature (°C)", y = "Density") +
+      scale_fill_brewer(palette = "Set1", name = "Station") +
+      theme_minimal() +
+      theme(legend.position = "bottom")
+    
+    ggplotly(p)
+  })
+}
+
+# Run the application
+shinyApp(ui = ui, server = server)
+```
+
+```{r}
+# Shiny app to toggle between mean temperature, daily rainfall, wind speed
+# Assuming 'weather' is your dataset
+
+# Define UI
+ui <- fluidPage(
+  tags$head(
+    tags$style(HTML("
+      .scrollable-menu {
+        height: auto;
+        max-height: 200px; /* Adjust the height as needed */
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+    "))
+  ),
+  titlePanel("Weather Variable Density Plot by Station"),
+  sidebarLayout(
+    sidebarPanel(
+      radioButtons("timeGranularity", "Select Time Granularity", choices = c("Year", "Month")),
+      uiOutput("timeInput"),  # Dynamic UI for selecting Year/Month based on granularity
+      tags$div(class = "scrollable-menu", 
+        checkboxGroupInput("selectedStations", "Choose Stations", choices = unique(weather$Station))
+      ),
+      selectInput("selectedVariable", "Select Variable", 
+            choices = c("`Mean Temperature (°C)`" = "Mean Temperature (°C)", 
+                        "`Wind Speed (km/h)`" = "Mean Wind Speed (km/h)",
+                        "`Daily Rainfall (mm)`" = "Daily Rainfall Total (mm)"))
+
+    ),
+    mainPanel(
+      plotlyOutput("densityPlot")
+    )
+  )
+)
+
+# Define server logic
+server <- function(input, output) {
+  # Dynamically generate UI for Year/Month selection based on time granularity
+  output$timeInput <- renderUI({
+    if(input$timeGranularity == "Year") {
+      selectInput("selectedYear", "Select Year", choices = unique(weather$Year))
+    } else if(input$timeGranularity == "Month") {
+      tagList(
+        selectInput("selectedYear", "Select Year", choices = unique(weather$Year)),
+        selectInput("selectedMonth", "Select Month", choices = month.abb, selected = "January")
+      )
+    }
+  })
+  
+  output$densityPlot <- renderPlotly({
+    # Filter data based on selected stations and time granularity
+    data_filtered <- weather %>%
+      filter(Station %in% input$selectedStations) %>%
+      filter(!is.na(.data[[input$selectedVariable]]))  # Remove NA values for the selected variable
+    
+    if(input$timeGranularity == "Year") {
+      data_filtered <- data_filtered %>%
+        filter(Year == input$selectedYear)
+    } else if(input$timeGranularity == "Month") {
+      month_num <- match(input$selectedMonth, month.abb)
+      data_filtered <- data_filtered %>%
+        filter(Year == input$selectedYear, Month == month_num)
+    }
+    
+    # Generate the density plot for the selected variable
+    p <- ggplot(data_filtered, aes(x = !!sym(input$selectedVariable), fill = Station)) +
+      geom_density(alpha = 0.5) +
+      labs(title = paste("Density of", input$selectedVariable, "across Selected Stations"),
+           x = input$selectedVariable, y = "Density") +
+      scale_fill_brewer(palette = "Set1", name = "Station") +
+      theme_minimal() +
+      theme(legend.position = "bottom")
+    
+    ggplotly(p)
+  })
+}
+
+# Run the application
+shinyApp(ui = ui, server = server)
+
 ```
 
 ### Temperature Plots
 
 ```{r}
-#| fig-width: 12
-# Create a Date column for plotting
-weather$Date <- as.Date(paste(weather$Year, weather$Month, weather$Day, sep = "-"))
 
-# Now, plot the data
-gg <- ggplot(weather, aes(x = Date, y = `Mean Temperature (°C)`, group = Area, color = Area)) +
-  geom_line() +
-  labs(title = 'Mean Temperature Across the Years by Area',
-       x = 'Year', 
-       y = 'Mean Temperature (°C)') +
-  theme_minimal() +
-  theme(legend.title = element_blank())  # Hide the legend title if desired
+# Filter the data for the "Paya Lebar" station
+weather_paya_lebar <- weather %>%
+  filter(Station == "Paya Lebar", !is.na(`Mean Temperature (°C)`))  # Ensure to remove NA values
 
-# Print the plot
-print(gg)
+# Create the histogram plot
+ggplot(weather_paya_lebar, aes(x = `Mean Temperature (°C)`)) +
+  geom_histogram(binwidth = 0.5, fill = "blue", color = "black") +
+  facet_wrap(~factor(Month, labels = month.abb), scales = "free_y") +
+  labs(title = "Distribution of Mean Temperature by Month (Paya Lebar)",
+       x = "Mean Temperature (°C)", y = "Frequency") +
+  theme_minimal()
+
 ```
 
 ```{r}
-# Assuming your weather dataset is named 'weather'
-# First, convert relevant columns to numeric if they are not already
-weather$`Mean Temperature (°C)` <- as.numeric(as.character(weather$`Mean Temperature (°C)`))
 
-# Then, make sure that Year and Month are in the correct format
-weather$Year <- as.integer(weather$Year)
-weather$Month <- as.integer(weather$Month)
+# List of stations of interest
+stations <- c("Sentosa Island", "Tuas", "Changi", "Admiralty")
 
-# Aggregate the data by Year and Month
-weather_summary <- weather %>%
-  group_by(Year, Month) %>%
-  summarise(MeanTemp = mean(`Mean Temperature (°C)`, na.rm = TRUE), .groups = 'drop') %>%
-  arrange(Year, Month)
+# Filter the data for the specified stations and month (e.g., January)
+weather_selected_stations <- weather %>%
+  filter(Station %in% stations, Month == 1, !is.na(`Mean Temperature (°C)`))
 
-# Check the structure of the aggregated data
-print(weather_summary)
+# Create the density plot
+ggplot(weather_selected_stations, aes(x = `Mean Temperature (°C)`, fill = Station)) +
+  geom_density(alpha = 0.5) +
+  labs(title = "Density of Mean Temperature in January across Stations",
+       x = "Mean Temperature (°C)", y = "Density") +
+  scale_fill_brewer(palette = "Set1", name = "Station") +
+  theme_minimal() +
+  theme(legend.position = "bottom")  # Adjust legend position as needed
 
-# Create labels for the Sunburst plot
-weather_summary$Label <- format(as.Date(paste0(weather_summary$Year, "-", weather_summary$Month, "-01")), "%b")
-weather_summary$YearMonth <- paste(weather_summary$Year, weather_summary$Label)
 
-# Create the Sunburst plot
-sunburst_plot <- plot_ly(weather_summary,
-                         ids = ~YearMonth,
-                         labels = ~Label,
-                         parents = ~Year,
-                         values = ~MeanTemp,
-                         type = 'sunburst',
-                         branchvalues = 'total') %>%
-  layout(title = 'Mean Monthly Temperature from 2014 to 2017')
+```
 
-# Print the plot
-sunburst_plot
+```{r}
+#| fig-width: 12
+ggplot(weather, aes(x = factor(Month), y = `Maximum Temperature (°C)`)) +
+  geom_boxplot() +
+  labs(title = "Maximum Temperature by Month",
+       x = "Month", y = "Temperature (°C)") +
+  theme_minimal()
 
+```
+
+### Wind
+
+```{r}
+ggplot(weather, aes(x = `Mean Wind Speed (km/h)`)) +
+  geom_histogram(binwidth = 1, fill = "blue", color = "black") +
+  labs(title = "Distribution of Mean Wind Speeds",
+       x = "Wind Speed (km/h)", y = "Frequency") +
+  theme_minimal()
 ```
 
 ## Weather and Air Pollution
 
+read in weather data with Area
+
 ```{r}
-# Check data
-# Check column names and types for pollutants dataframe
-print(names(pollutants))
-print(sapply(pollutants, class))
+weather <- read_csv("../../data/weather_singapore_2014_to_2017.csv", locale = locale(encoding = "ISO-8859-1"))
+# Convert the character columns for rainfall and temperature to numeric
+cols_to_convert <- c('Daily Rainfall Total (mm)', 'Highest 30 Min Rainfall (mm)', 
+                     'Highest 60 Min Rainfall (mm)', 'Highest 120 Min Rainfall (mm)', 
+                     'Mean Temperature (°C)', 'Maximum Temperature (°C)', 
+                     'Minimum Temperature (°C)', 'Mean Wind Speed (km/h)', 
+                     'Max Wind Speed (km/h)')
 
+weather[cols_to_convert] <- lapply(weather[cols_to_convert], function(x) as.numeric(as.character(x)))
 
-# Ensure Date columns are in Date format and Area columns are characters
-pollutants$Date 
+# Convert 'Year', 'Month', 'Day' to a Date object for plotting
+weather <- weather %>%
+  mutate(Date = as.Date(paste(Year, Month, Day, sep = "-")),
+         `Mean Temperature (°C)` = as.numeric(`Mean Temperature (°C)`))
 ```
 
 ```{r}
 # Merge the datasets on Area and Date
 combined_data <- merge(pollutants, weather, by = c("Area", "Date"))
 
+```
+
+```{r}
 # Create scatter plots for each Area
-gg <- ggplot(combined_data, aes(x = pm25, y = combined_data$`Mean Temperature (°C)`)) +
+gg <- ggplot(combined_data, aes(x = pm25, y = combined_data$`Daily Rainfall Total (mm)`)) +
   geom_point(alpha = 0.5) +  # Use alpha to make points semi-transparent
   facet_wrap(~Area) +  # Creates a separate plot for each Area
   labs(title = 'Relationship between PM2.5 and Daily Rainfall Total',
@@ -284,6 +642,43 @@ gg <- ggplot(combined_data, aes(x = pm25, y = combined_data$`Mean Temperature (�
 
 # Print the plot
 print(gg)
+```
+
+```{r}
+# Create a new column in your weather dataframe to indicate whether there was rain on a particular day by checking if the Daily Rainfall Total (mm) is greater than zero. 
+combined_data <- combined_data %>%
+  mutate(`Rain Day` = `Daily Rainfall Total (mm)` > 0)
+```
+
+```{r}
+# Load necessary libraries
+library(corrplot)
+
+# Assuming 'combined_data' is your dataset and it's already been loaded into your R environment
+# Compute the correlation matrix for some of the variables
+variables <- c("pm25", "pm10", "o3", "no2", "so2", "co")
+corr_matrix <- cor(combined_data[, variables], use = "complete.obs")  # using 'complete.obs' to exclude NAs
+
+# Visualize the correlation matrix
+corrplot(corr_matrix, method = "circle", type = "upper", tl.col = "black", tl.srt = 45)
+
+```
+
+```{r}
+
+# Filter data for January 2020 using the Date column
+jan_2020_data <- combined_data %>%
+  filter(Date >= as.Date("2017-01-01") & Date <= as.Date("2017-01-31"))
+
+# Create the bubble plot for January 2020
+ggplot(jan_2020_data, aes(x = `Daily Rainfall Total (mm)`, y = `Mean Temperature (°C)`, size = pm25)) +
+  geom_point(alpha = 0.6) +  # Set transparency to see overlapping points
+  scale_size_continuous(name = "PM2.5") +  # Set the name for the size scale (PM2.5 levels)
+  labs(title = "Daily Rainfall vs. Mean Temperature in January 2017 (Bubble Size: PM2.5)",
+       x = "Daily Rainfall Total (mm)",
+       y = "Mean Temperature (°C)") +
+  theme_minimal() +
+  theme(legend.position = "right")  # Position the legend on the right
 
 ```
 
@@ -300,7 +695,28 @@ ggplot(combined_data, aes(x = pm25, y = combined_data$`Mean Temperature (°C)`))
 ```
 
 ```{r}
-# Boxplot 
+# Treemap
 
+library(dplyr)
+library(treemap)
+
+
+# Group by 'Area' and 'Station', then calculate mean PM2.5 levels and mean temperature
+data_summary <- combined_data %>%
+  group_by(Area, Station) %>%
+  summarise(Mean_PM25 = mean(pm25, na.rm = TRUE),  # Compute mean PM2.5, ignoring NA values
+            Mean_Temperature = mean(`Mean Temperature (°C)`, na.rm = TRUE),  # Compute mean temperature
+            .groups = 'drop')  # Ensure no additional grouping
+# Create a hierarchical treemap
+treemap(data_summary,
+        index = c("Area", "Station"),  # Hierarchical grouping: Area then Station
+        vSize = "Mean_PM25",  # Size of rectangles based on mean PM2.5 levels
+        vColor = "Mean_Temperature",  # Color of rectangles based on mean temperature
+        title = "PM2.5 Levels and Mean Temperature by Area and Station",
+        fontsize.title = 14,
+        palette = "RdYlGn",  # Color palette for temperature
+        draw.labels = TRUE,  # To draw labels or not
+        fontsize.labels = c(12, 8),  # Font sizes for Area and Station labels
+        aspRatio = 0.5)  # Aspect ratio of the plot
 
 ```

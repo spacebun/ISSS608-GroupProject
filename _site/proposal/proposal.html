@@ -242,7 +242,7 @@ ul.task-list li input[type="checkbox"] {
 <table class="table">
 <colgroup>
 <col style="width: 35%">
-<col style="width: 6%">
+<col style="width: 7%">
 <col style="width: 28%">
 <col style="width: 28%">
 </colgroup>
@@ -287,12 +287,32 @@ ul.task-list li input[type="checkbox"] {
 <p>This module will show dynamic, interactive map with option to include both weather and air quality data across 5 key areas in Singapore. Users will be able to select different time frames and regions for detailed examination.</p>
 <p><strong>Prototype Features:</strong></p>
 <ul>
+<li><p>Tab 1: <strong>Map</strong></p>
+<ul>
 <li><p>Interactive mapping tool with zoom and pan functions.</p></li>
 <li><p>Layer selection for various weather and air quality parameters.</p></li>
 <li><p>Time slider to view data across different historical periods.</p></li>
 <li><p>Region-specific data display upon selection.</p></li>
+</ul></li>
 </ul>
-<p><img src="images/clipboard-652698470.png" class="img-fluid"></p>
+<p><img src="images/clipboard-1292530329.png" class="img-fluid"></p>
+<ul>
+<li><p>Tab 2: Plots</p>
+<ul>
+<li><p>Options to select distribution plots for key weather parameters and pollutants by area, including density plots, histograms, and boxplots.</p></li>
+<li><p>Comparative visualizations with side-by-side evaluations of multiple different areas or variables.</p></li>
+<li><p>Customizable granularity to observe either monthly or yearly view of the data.</p></li>
+</ul></li>
+</ul>
+<p><img src="images/clipboard-640642760.png" class="img-fluid"></p>
+<p>Following R packages will be used in this section:</p>
+<ul>
+<li><p>tidyverse (CRAN - Package tidyverse (r-project.org)): An ecosystem of packages designed for data science that makes it easy to tidy, transform, and visualize data.</p></li>
+<li><p>ggplot2 (CRAN - Package ggplot2 (r-project.org)): A powerful package for creating static, aesthetic, and informative graphics.</p></li>
+<li><p>plotly (CRAN - Package plotly (r-project.org)): Provides a high-level interface to Plotly, enabling the creation of interactive and dynamic visualizations.</p></li>
+<li><p>DT (CRAN - Package DT (r-project.org)): An interface to the JavaScript library DataTables, used to render interactive and rich data tables.</p></li>
+<li><p>sf (CRAN - Package sf (r-project.org)): An R package for handling and analyzing spatial data with simple features, which can interface with leaflet for mapping.</p></li>
+</ul>
 </section>
 <section id="time-series-toolkit" class="level3">
 <h3 class="anchored" data-anchor-id="time-series-toolkit"><strong>2. Time-series Toolkit</strong></h3>
@@ -313,8 +333,36 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="climate-pollutant-relationship-explorer" class="level3">
 <h3 class="anchored" data-anchor-id="climate-pollutant-relationship-explorer">3. Climate-Pollutant Relationship Explorer</h3>
+<p>This module would enable the user to select different types of plots and variables to be included in plots centered on exploring relationships. Below, we list some possible plots for such analysis:</p>
+<section id="bubble-plot" class="level4">
+<h4 class="anchored" data-anchor-id="bubble-plot">Bubble Plot</h4>
+<p>This bubble plot, displaying the relationship between daily rainfall, mean temperature, and PM2.5 levels (represented by bubble size), provides a multidimensional view of the data. The plot allows a user to:</p>
+<ul>
+<li><p>assess if there are any trends between rainfall and temperature</p></li>
+<li><p>observe how air quality varies with different weather conditions. For example, days with higher rainfall has smaller bubbles (lower PM2.5 levels) in the plot below, suggesting that rain could help reduce air pollution.</p></li>
+</ul>
+<p><img src="images/clipboard-2783724441.png" class="img-fluid"></p>
+</section>
+<section id="treemap" class="level4">
+<h4 class="anchored" data-anchor-id="treemap">Treemap</h4>
+<p>This treemap can convey both the PM2.5 pollution levels (through the size of the rectangles) and the mean temperature (through the color of the rectangles) across different areas and stations.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that only a small number of selected stations were grouped into different areas for this prototype</p>
+</div>
+</div>
+<p><img src="images/clipboard-151434396.png" class="img-fluid"></p>
 
 
+</section>
 </section>
 </section>
 
