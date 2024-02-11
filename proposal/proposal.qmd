@@ -55,7 +55,7 @@ Using various R packages, we will analyse and visualize weather and air quality 
 2.  Use selected analytical functions to highlight key patterns, identify anomalies, and make projections about future climate and air quality.
 3.  Explore and visualize the interrelationship between various air pollutants and weather parameters like temperature, wind speed, and rainfall.
 
-## The Data
+## The data
 
 The following datasets will be used:
 
@@ -66,7 +66,7 @@ The following datasets will be used:
 |                                                                    |             |                                                       |                                                       |
 | (rainfall, temperature and wind speed)                             |             |                                                       |                                                       |
 +--------------------------------------------------------------------+-------------+-------------------------------------------------------+-------------------------------------------------------+
-| Air quality for 5 locations in Singapore                           | Daily       | Jan 1975 – Dec 2023                                   | http://www.weather.gov.sg/climate-historical-daily/   |
+| Air quality for 5 locations in Singapore                           | Daily       | 2014 - 2023                                           | http://www.weather.gov.sg/climate-historical-daily/   |
 |                                                                    |             |                                                       |                                                       |
 | (PM2.5, PM10, O3, NO2, SO2, CO, PSI)                               |             |                                                       |                                                       |
 +--------------------------------------------------------------------+-------------+-------------------------------------------------------+-------------------------------------------------------+
