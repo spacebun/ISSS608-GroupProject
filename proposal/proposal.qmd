@@ -75,7 +75,7 @@ The following datasets will be used:
 | (Changi climate station)                                           |             |                                                       | https://tablebuilder.singstat.gov.sg/table/TS/M890081 |
 +--------------------------------------------------------------------+-------------+-------------------------------------------------------+-------------------------------------------------------+
 
-## Approach and Prototypes
+## Approach and prototypes
 
 ### **1. Bird's Eye View of Weather and Air Quality**
 
