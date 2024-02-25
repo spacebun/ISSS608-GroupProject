@@ -105,27 +105,27 @@ vis_miss(pollutants)
 ```
 :::
 
-::: callout-tip
 ### Understanding the data
 
 There are 9 columns in the dataset:
 
 *Area* <chr>
+
 The ambient air quality in Singapore is continuously monitored through a network of air monitoring sensors across the island. The data from the air monitoring sensors are reported for [five regions](https://www.nea.gov.sg/our-services/pollution-control/air-pollution/faqs) in Singapore – **North, South, East, West, Central**.
 
 *date* <chr>
+
 The date for each row is recorded in YYYY/MM/DD format, of type chr. We will need to convert this to date/time classes e.g. Date, POSIXct, or POSIXlt.
 
 *pm25*, *pm10*, *o3*, *no2*, *so2*, *co* <dbl>
+
 The air monitoring sensors measure concentration levels of **six** air pollutants: fine particulate matter (PM~2.5~), particulate matter (PM~10~), ozone (O~3~), nitrogen dioxide (NO~2~), sulphur dioxide (SO~2~) and carbon monoxide (CO). The values are reported in µg/m^3^ for each 24h period / day.
 
 *psi* <dbl>
+
 PSI is the air quality index used in Singapore. It is reported as a number on a scale of **0 to 500**. In this dataset, the *psi* column is the 24-hour PSI value.
 
 
-:::
-
-::: callout-tip
 ### More on PSI
 
 PSI can be grouped by index values and descriptors, explaining the effects of the levels, according to Singapore's National Environment Agency (NEA).
@@ -140,13 +140,10 @@ PSI can be grouped by index values and descriptors, explaining the effects of th
 
 The PSI is computed based on the 24-hour average of concentration levels of 6 pollutants. A sub-index value is computed for each pollutant based on the pollutant’s ambient air concentration. The highest sub-index value is then taken as the PSI value. **In other words, the PSI is determined by the pollutant with the most significant concentration.** Technical details on how the PSI is calculated can be found here: [computation of PSI](http://www.haze.gov.sg/docs/default-source/faq/computation-of-the-pollutant-standards-index-(psi).pdf).
 
-:::
 
 ### Pre-processing (WIP)
 
 ```{r}
-#| code-fold: false
-#| eval: false
 # Convert date column from character to date type
 pollutants <- pollutants %>%
   mutate(date = trimws(date), 
@@ -157,10 +154,6 @@ str(pollutants)
 ```
 
 ```{r}
-#| code-fold: false
-#| eval: false
-
-
 # Rename date column top 'Date'
 pollutants <- pollutants %>% 
        rename("Date" = "date")
@@ -169,10 +162,6 @@ pollutants <- pollutants %>%
 ### Plots
 
 ```{r}
-#| code-fold: false
-#| eval: false
-
-
 # Pollutants over time
 # Reshape data to long format
 pollutants_long <- pollutants %>%
@@ -189,7 +178,6 @@ ggplot(pollutants_long, aes(x = Date, y = value, color = pollutant)) +
 #| code-fold: false
 #| eval: false
 
-
 # Density plot for PM2.5 across Areas
 ggplot(pollutants, aes(x = pm25, fill = Area)) +
   geom_density(alpha = 0.5) +
@@ -200,10 +188,6 @@ ggplot(pollutants, aes(x = pm25, fill = Area)) +
 ```
 
 ```{r}
-#| code-fold: false
-#| eval: false
-
-
 # Filter for a specific year, e.g., 2020
 pollutants_filtered <- pollutants %>%
   filter(year(Date) == 2020)
@@ -218,33 +202,15 @@ ggplot(pollutants_filtered, aes(x = pm25, fill = Area)) +
 
 ```
 
-```{r}
-#| code-fold: false
-#| eval: false
-
-
-# Density plot for PM10 across Areas
-ggplot(pollutants_2014_2017, aes(x = pm10, fill = Area)) +
-  geom_density(alpha = 0.5) +
-  labs(title = "Density Plot of PM10 by Area, 2014-2017", x = "PM10", y = "Density") +
-  theme_minimal() +
-  scale_fill_discrete(name = "Area")
-```
 
 ```{r}
 #| code-fold: false
 #| eval: false
 
 # Boxplot for PM10
-ggplot(pollutants_2014_2017, aes(x = Area, y = pm10, fill = Area)) +
+ggplot(pollutants, aes(x = Area, y = pm25, fill = Area)) +
   geom_boxplot(alpha = 0.5) +
-  labs(title = "Boxplot of PM10 by Area, 2014-2017", x = "Area", y = "PM10") +
+  labs(title = "Boxplot of PM2.5 by Area", x = "Area", y = "PM10") +
   theme_minimal() +
   scale_fill_discrete(name = "Area")
 ```
-
-```{r}
-# Correlation heatmap of how pollutants are correlated with others
-```
-
-
