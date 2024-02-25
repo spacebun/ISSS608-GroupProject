@@ -1,0 +1,240 @@
+---
+title: "Exploratory Data Analysis"
+subtitle: "Weather"
+date: February 25, 2024
+date-modified:  last-modified
+format:
+  html:
+    toc: true
+    number-sections: false
+    code-line-numbers: false
+    
+execute: 
+  eval: true
+  echo: true
+  warning: false  
+
+draft: true
+---
+
+## Overview
+
+## Getting Started
+
+### Load libraries
+
+First, we load packages required:
+
+```{r}
+pacman::p_load(naniar,
+               tidyverse, haven,
+               ggrepel, ggthemes,
+               ggridges, ggdist,
+               patchwork, ggpattern,
+               hrbrthemes, plotly,
+               sf, tmap,
+               lubridate,
+               DT)
+```
+
+## Weather
+
+### Import data
+```{r}
+weather <- read_csv("../../data/climate_historical_daily_records.csv") 
+```
+### Remove stations
+
+Based on the Station Records, we will remove a number of stations where there is no data for a number of variables. 
+
+```{r}
+# Define the station names to remove
+stations_to_remove <- c("Macritchie Reservoir", "Lower Peirce Reservoir", "Pasir Ris (West)", "Kampong Bahru", "Jurong Pier", "Ulu Pandan", "Serangoon", "Jurong (East)", "Mandai", "Upper Thomson", "Buangkok", "Boon Lay (West)", "Bukit Panjang", "Kranji Reservoir", "Tanjong Pagar", "Admiralty West", "Queenstown", "Tanjong Katong", "Chai Chee", "Upper Peirce Reservoir", "Kent Ridge", "Somerset (Road)", "Punggol", "Tuas West", "Simei", "Toa Payoh", "Tuas", "Bukit Timah", "Yishun", "Buona Vista", "Pasir Ris (Central)", "Jurong (North)", "Choa Chu Kang (West)", "Serangoon North", "Lim Chu Kang", "Marine Parade", "Choa Chu Kang (Central)", "Dhoby Ghaut", "Nicoll Highway", "Botanic Garden", "Whampoa")
+
+# Remove rows with the specified station names
+weather <- weather[!weather$Station %in% stations_to_remove, ]
+
+```
+
+Checking stations. There should be 22 unique stations:
+```{r}
+# Extract unique stations from the weather dataframe
+unique_stations <- unique(weather$Station)
+
+# Print the list of unique stations
+print(unique_stations)
+```
+
+## Check data
+
+### Check structure with glimpse()
+
+```{r}
+glimpse(weather)
+```
+
+### Checking for duplicated rows
+
+We expect that each row will be unique for combination of Station Name, Year, Month, and Day.
+
+```{r}
+# Check for duplicates across the combination of Station Name, Year, Month, and Day
+duplicates <- weather[duplicated(weather[c("Station", "Year", "Month", "Day")]) | duplicated(weather[c("Station", "Year", "Month", "Day")], fromLast = TRUE), ]
+
+# If 'duplicates' dataframe is empty, it means there are no duplicates
+if (nrow(duplicates) == 0) {
+  print("The combination of Station Name, Year, Month, and Day is unique.")
+} else {
+  print("There are duplicates in the combination of Station Name, Year, Month, and Day.")
+}
+```
+
+### Checking for stations with no data for an entire month
+
+For some stations, there is no data for an entire month. We will check and summarise this list of stations with missing months. 
+
+```{r}
+# Create a reference dataframe with all combinations of stations, years, and months from 2014 to 2023
+stations <- unique(weather$Station)
+years <- 2014:2023
+months <- 1:12
+
+reference_df <- expand.grid(Station = stations, Year = years, Month = months)
+
+# Left join the reference dataframe with the weather dataframe
+merged_df <- merge(reference_df, weather, by = c("Station", "Year", "Month"), all.x = TRUE)
+
+# Filter rows with missing data (NA values)
+missing_months <- merged_df[is.na(merged_df$`Daily Rainfall Total (mm)`), c("Station", "Year", "Month")]
+
+# If there are missing months, print the table
+if (nrow(missing_months) > 0) {
+  print("Stations with missing months entirely for the period of 2014 to 2023:")
+  datatable(missing_months, 
+            class= "compact",
+            rownames = FALSE,
+            width="100%", 
+            options = list(pageLength = 40,scrollX=T))
+} else {
+  print("All stations have data for the period of 2014 to 2023.")
+}
+```
+
+
+### Checking for rows with  values with \u0097
+
+For some rows, there are "\u0097" values. We will summarise the count of these empty values for each month of each station. 
+
+```{r}
+# Function to count occurrences of "\u0097" values for each column within each station for each 'Year' and 'Month'
+count_missing_values <- function(df) {
+  # Group the data by Station, Year, and Month
+  df_grouped <- df %>%
+    group_by(Station, Year, Month) %>%
+    summarise(across(-Day, ~ sum(. == "\u0097")))
+  
+  # Rename columns
+  colnames(df_grouped)[-c(1:3)] <- paste("Number of", colnames(df_grouped)[-c(1:3)], "values")
+  
+  return(df_grouped)
+}
+
+# Call the function to count missing values
+missing_values_summary <- count_missing_values(weather)
+
+# Print the summary
+datatable(missing_values_summary, 
+          class= "compact",
+          rownames = FALSE,
+          width="100%", 
+          options = list(pageLength = 40,scrollX=T))
+```
+
+To make it easier to see, we can filter the dataset for just the rows with non-zero values. 
+
+```{r}
+# Filter rows with non-zero values
+missing_values_summary_filtered <- missing_values_summary %>%
+  filter(if_any(-c(1:3), ~ . != 0))
+
+# Print the filtered summary
+datatable(missing_values_summary_filtered, 
+          class= "compact",
+          rownames = FALSE,
+          width="100%", 
+          options = list(pageLength = 40,scrollX=T))
+```
+
+::: callout-important
+We will need to decide how to handle this. 
+::: 
+### Check for missing values, NA
+
+Count of NA values: 
+```{r}
+sum(is.na(weather))
+```
+
+```{r}
+# Function to count occurrences of NA values for each column within each station for each 'Year' and 'Month'
+count_na_values <- function(df) {
+  # Group the data by Station, Year, and Month
+  df_grouped <- df %>%
+    group_by(Station, Year, Month) %>%
+    summarise(across(-Day, ~ sum(is.na(.))))
+  
+  # Rename columns
+  colnames(df_grouped)[-c(1:3)] <- paste("Number of", colnames(df_grouped)[-c(1:3)], "NA values")
+  
+  return(df_grouped)
+}
+
+# Call the function to count NA values
+na_values_summary <- count_na_values(weather)
+
+# Print the summary
+datatable(na_values_summary, 
+          class= "compact",
+          rownames = FALSE,
+          width="100%", 
+          options = list(pageLength = 40,scrollX=T))
+
+```
+
+```{r}
+# Filter rows with non-zero values
+na_values_summary_filtered <- na_values_summary %>%
+  filter(if_any(-c(1:3), ~ . != 0))
+
+# Print the filtered summary
+datatable(na_values_summary_filtered, 
+          class= "compact",
+          rownames = FALSE,
+          width="100%", 
+          options = list(pageLength = 40,scrollX=T))
+```
+
+::: callout-important
+We will need to decide how to handle this. 
+::: 
+
+### Others
+
+
+
+```{r}
+paya_data <- filter(weather, Station == "Paya Lebar")
+glimpse(paya_data)
+datatable(paya_data, 
+          class= "compact",
+          rownames = FALSE,
+          width="100%", 
+          options = list(pageLength = 40,scrollX=T))
+```
+
+```{r}
+semakau_data <- filter(weather, Station == "Semakau Island")
+glimpse(semakau_data)
+```
+
+

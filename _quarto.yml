@@ -17,8 +17,10 @@ website:
         menu:
           - text: Data Retrieval and Wrangling
             href: code/data_retrieval/data_retrieval.html
-          - text: Exploratory Data Analysis
-            href: code/EDA/EDA.html
+          - text: Weather Exploratory Data Analysis 1
+            href: code/EDA/EDA_Weather_serena.html
+          - text: Air quality Exploratory Data Analysis 1
+            href: code/EDA/EDA_AirQuality_serena.html
       - text: "Shiny App"
         menu:
           - text: "User Guide"
