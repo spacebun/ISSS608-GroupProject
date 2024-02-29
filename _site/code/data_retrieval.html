@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -23,7 +23,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -58,30 +58,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<link href="../../images/sunny.png" rel="icon" type="image/png">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../images/sunny.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -90,6 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -97,18 +104,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
-    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../images/sunny.png" alt="" class="navbar-logo">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/sunny.png" alt="" class="navbar-logo">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -118,55 +125,55 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../proposal/proposal.html" rel="" target="">
- <span class="menu-text">Proposal</span></a>
+    <a class="nav-link" href="../proposal/proposal.html"> 
+<span class="menu-text">Proposal</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-prototyping" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-prototyping" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Prototyping</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-prototyping">    
         <li>
-    <a class="dropdown-item" href="../../code/data_retrieval/data_retrieval.html" rel="" target="">
- <span class="dropdown-text">Data Retrieval and Wrangling</span></a>
+    <a class="dropdown-item" href="../code/data_retrieval.html">
+ <span class="dropdown-text">Data retrieval and wrangling</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../code/EDA/EDA_Weather_serena.html" rel="" target="">
- <span class="dropdown-text">Weather Exploratory Data Analysis 1</span></a>
+    <a class="dropdown-item" href="../code/Data_preparation_Weather.html">
+ <span class="dropdown-text">Data preparation for Weather</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../code/EDA/EDA_AirQuality_serena.html" rel="" target="">
- <span class="dropdown-text">Air quality Exploratory Data Analysis 1</span></a>
+    <a class="dropdown-item" href="../code/EDA_airquality.html">
+ <span class="dropdown-text">Exploratory data analysis for Air Quality</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-shiny-app" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-shiny-app" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Shiny App</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-shiny-app">    
         <li>
-    <a class="dropdown-item" href="../../shinyapp/shinyappuserguide.html" rel="" target="">
+    <a class="dropdown-item" href="../shinyapp/shinyappuserguide.html">
  <span class="dropdown-text">User Guide</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../shinyapp/shinyapp.html" rel="" target="">
+    <a class="dropdown-item" href="../shinyapp/shinyapp.html">
  <span class="dropdown-text">Shiny App</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="../../poster/poster.html" rel="" target="">
- <span class="menu-text">Project Poster</span></a>
+    <a class="nav-link" href="../poster/poster.html"> 
+<span class="menu-text">Project Poster</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html" rel="" target="">
- <span class="menu-text">The Team</span></a>
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">The Team</span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -179,15 +186,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#climate-historical-daily-records" id="toc-climate-historical-daily-records" class="nav-link active" data-scroll-target="#climate-historical-daily-records">Climate Historical Daily Records</a>
+  <li><a href="#climate-historical-daily-records" id="toc-climate-historical-daily-records" class="nav-link active" data-scroll-target="#climate-historical-daily-records"><span class="header-section-number">1</span> Climate Historical Daily Records</a>
   <ul class="collapse">
-  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">Getting Started</a>
+  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started"><span class="header-section-number">1.1</span> Getting Started</a>
   <ul class="collapse">
-  <li><a href="#load-required-libraries" id="toc-load-required-libraries" class="nav-link" data-scroll-target="#load-required-libraries">Load required libraries</a></li>
+  <li><a href="#load-required-libraries" id="toc-load-required-libraries" class="nav-link" data-scroll-target="#load-required-libraries"><span class="header-section-number">1.1.1</span> Load required libraries</a></li>
   </ul></li>
-  <li><a href="#download-data-climate-historical-daily-records" id="toc-download-data-climate-historical-daily-records" class="nav-link" data-scroll-target="#download-data-climate-historical-daily-records">Download data: Climate <strong>Historical Daily Records</strong></a></li>
+  <li><a href="#download-data-climate-historical-daily-records" id="toc-download-data-climate-historical-daily-records" class="nav-link" data-scroll-target="#download-data-climate-historical-daily-records"><span class="header-section-number">1.2</span> Download data: Climate <strong>Historical Daily Records</strong></a></li>
   </ul></li>
-  <li><a href="#air-quality" id="toc-air-quality" class="nav-link" data-scroll-target="#air-quality">Air Quality</a></li>
+  <li><a href="#air-quality" id="toc-air-quality" class="nav-link" data-scroll-target="#air-quality"><span class="header-section-number">2</span> Air Quality</a></li>
   </ul>
 </nav>
     </div>
@@ -214,14 +221,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">February 25, 2024</p>
+      <p class="date-modified">February 29, 2024</p>
     </div>
   </div>
     
   </div>
   
 
+
 </header>
+
 
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -236,8 +245,8 @@ Note
 <p>page in draft mode</p>
 </div>
 </div>
-<section id="climate-historical-daily-records" class="level1">
-<h1>Climate Historical Daily Records</h1>
+<section id="climate-historical-daily-records" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Climate Historical Daily Records</h1>
 <p>The Climate Historical Daily Records of various climate stations in Singapore can be retrieved from <a href="http://www.weather.gov.sg/climate-historical-daily/">here</a>. However, as the data is available in .csv files for each month, we have written the below code to:</p>
 <ol type="1">
 <li>retrieve all the available climate historical daily records</li>
@@ -257,10 +266,10 @@ Note
 <p><a href="http://www.weather.gov.sg/wp-content/uploads/2022/06/Station_Records.pdf">This file</a> contains the list of stations, weather parameters and periods of records available. The file has been saved as an .XLSX file, and the respective station codes have been added to the .XLSX file.</p>
 </div>
 </div>
-<section id="getting-started" class="level2">
-<h2 class="anchored" data-anchor-id="getting-started">Getting Started</h2>
-<section id="load-required-libraries" class="level3">
-<h3 class="anchored" data-anchor-id="load-required-libraries">Load required libraries</h3>
+<section id="getting-started" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="getting-started"><span class="header-section-number">1.1</span> Getting Started</h2>
+<section id="load-required-libraries" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="load-required-libraries"><span class="header-section-number">1.1.1</span> Load required libraries</h3>
 <ul>
 <li><code>httr</code> will be used for making HTTP requests, downloading, and saving files</li>
 </ul>
@@ -269,8 +278,8 @@ Note
 </div>
 </section>
 </section>
-<section id="download-data-climate-historical-daily-records" class="level2">
-<h2 class="anchored" data-anchor-id="download-data-climate-historical-daily-records">Download data: Climate <strong>Historical Daily Records</strong></h2>
+<section id="download-data-climate-historical-daily-records" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="download-data-climate-historical-daily-records"><span class="header-section-number">1.2</span> Download data: Climate <strong>Historical Daily Records</strong></h2>
 <p>First, retrieve the list of station codes from the file Station_Records.xlsx.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>station_records <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"../../data/Station_Records.xlsx"</span>)</span>
@@ -322,18 +331,18 @@ Note
 <li>(‘Highest 120 <strong>Min</strong> Rainfall (mm)’, ‘Highest 120 <strong>min</strong> Rainfall (mm)’)</li>
 <li>Add the latitude and longitude of each station to the dataframe.</li>
 </ul>
-<p>To load this CSV file for climate historical daily records in the future, follow the code in the code chunk below.</p>
+<p>To load this CSV file for climate historical daily records (2014-2023) in the future, follow the code in the code chunk below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>weather_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/climate_historical_daily_records.csv"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>weather_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../data/climate_historical_daily_records.csv"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
-<section id="air-quality" class="level1">
-<h1>Air Quality</h1>
+<section id="air-quality" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Air Quality</h1>
 <p>*Done in python: Combined the 5 air quality .CSV files into a single CSV file, and adding area as a column in the CSV file.</p>
 <p>To load the data for air quality in the future, follow the code in the code chunk below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pollutants_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/pollutants_singapore.csv"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pollutants_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../data/pollutants_singapore.csv"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
@@ -419,10 +428,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -432,8 +440,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -446,6 +463,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -489,6 +625,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -514,6 +651,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -574,6 +737,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

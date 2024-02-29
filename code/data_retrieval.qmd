@@ -6,7 +6,7 @@ date-modified:  last-modified
 format:
   html:
     toc: true
-    number-sections: false
+    number-sections: true
     code-line-numbers: false
     
 execute: 
@@ -25,7 +25,7 @@ page in draft mode
 
 The Climate Historical Daily Records of various climate stations in Singapore can be retrieved from [here](http://www.weather.gov.sg/climate-historical-daily/). However, as the data is available in .csv files for each month, we have written the below code to:
 
-1.   retrieve all the available climate historical daily records
+1.  retrieve all the available climate historical daily records
 2.  compile the data into a single .csv file
 
 ::: callout-note
@@ -98,23 +98,23 @@ The next few steps were completed in python due to better efficiency in handling
 
 -   Combine all downloaded CSV files into one dataframe.
 -   Performing cleaning to merge data of columns with slightly different names due to case sensitivity (e.g., "min" vs. "Min")
-  -   ('Highest 30 **Min** Rainfall (mm)', 'Highest 30 **min** Rainfall (mm)')
-  -   ('Highest 60 **Min** Rainfall (mm)', 'Highest 60 **min** Rainfall (mm)')
-  -   ('Highest 120 **Min** Rainfall (mm)', 'Highest 120 **min** Rainfall (mm)')
+-   ('Highest 30 **Min** Rainfall (mm)', 'Highest 30 **min** Rainfall (mm)')
+-   ('Highest 60 **Min** Rainfall (mm)', 'Highest 60 **min** Rainfall (mm)')
+-   ('Highest 120 **Min** Rainfall (mm)', 'Highest 120 **min** Rainfall (mm)')
 -   Add the latitude and longitude of each station to the dataframe.
 
+To load this CSV file for climate historical daily records (2014-2023) in the future, follow the code in the code chunk below.
 
-To load this CSV file for climate historical daily records in the future, follow the code in the code chunk below. 
 ```{r}
-weather_data <- read_csv("../../data/climate_historical_daily_records.csv") 
+weather_data <- read_csv("../data/climate_historical_daily_records.csv") 
 ```
 
 # Air Quality
 
-*Done in python: Combined the 5 air quality .CSV files into a single CSV file, and adding area as a column in the CSV file.
+\*Done in python: Combined the 5 air quality .CSV files into a single CSV file, and adding area as a column in the CSV file.
 
+To load the data for air quality in the future, follow the code in the code chunk below.
 
-To load the data for air quality in the future, follow the code in the code chunk below. 
 ```{r}
-pollutants_data <- read_csv("../../data/pollutants_singapore.csv") 
+pollutants_data <- read_csv("../data/pollutants_singapore.csv") 
 ```

@@ -7,20 +7,26 @@ date-modified:  last-modified
 format:
   html:
     toc: true
-    number-sections: false
+    number-sections: true
     code-line-numbers: false
     
 execute: 
   eval: true
   echo: true
   warning: false  
-
-draft: true
 ---
 
 ## Overview
 
-This exercise is a work in progress. So far it focuses mainly on cleaning the weather dataset.
+In this document we clean and prepare our weather data.
+
+```{mermaid}
+flowchart TD
+    A(Import Data) --> B(Data preparation)
+    B --> C(Save data)
+```
+
+
 
 ## Getting Started
 
@@ -41,9 +47,7 @@ pacman::p_load(naniar,
                kableExtra)
 ```
 
-## Weather
-
-### Import data
+## Import weather data
 
 ```{r}
 weather <- read_csv("../data/climate_historical_daily_records.csv") 
@@ -51,7 +55,22 @@ weather <- read_csv("../data/climate_historical_daily_records.csv")
 
 ## Data preparation
 
-For this project, we retrieved data from the [NEA website](http://www.weather.gov.sg/climate-historical-daily/) for 63 weather stations distributed across Singapore from the years 2014 to 2023. After examining the station records file, we found that 41 stations ha some missing information for a few variables. Additionally, we identified stations that had no recorded data for entire months and others with excessive missing values, indicating significant gaps in data collection and recording. The detailed data cleaning process are documented down in the next few sections.
+For this project, we retrieved data from the [NEA website](http://www.weather.gov.sg/climate-historical-daily/) for 63 weather stations distributed across Singapore from the years 2014 to 2023. After examining the station records file, we found that 41 stations had some missing information for a few variables. Additionally, we identified stations that had no recorded data for entire months and others with excessive missing values, indicating significant gaps in data collection and recording. The detailed data cleaning process are documented down in the next few sections.
+
+```{mermaid}
+flowchart LR
+    A(Data preparation) --> B(Filter for period\n2021 to 2023)
+    A --> C(Remove unused variables)
+    A --> D(Check and remove duplicates)
+    A --> E(Station-specific cleaning)
+    E --> F(Remove stations with\nincomplete data)
+    E --> G(Remove stations with\nno data for an entire month)
+    E --> H(Remove stations with \nexcessive missing values)
+    A --> I(Impute data)
+    A --> J(Add Date column)
+```
+
+
 
 ### General Data Cleaning
 
@@ -126,7 +145,7 @@ Based on the Station Records, we will remove a number of stations where there is
 stations_to_remove <- c("Macritchie Reservoir", "Lower Peirce Reservoir", "Pasir Ris (West)", "Kampong Bahru", "Jurong Pier", "Ulu Pandan", "Serangoon", "Jurong (East)", "Mandai", "Upper Thomson", "Buangkok", "Boon Lay (West)", "Bukit Panjang", "Kranji Reservoir", "Tanjong Pagar", "Admiralty West", "Queenstown", "Tanjong Katong", "Chai Chee", "Upper Peirce Reservoir", "Kent Ridge", "Somerset (Road)", "Punggol", "Tuas West", "Simei", "Toa Payoh", "Tuas", "Bukit Timah", "Yishun", "Buona Vista", "Pasir Ris (Central)", "Jurong (North)", "Choa Chu Kang (West)", "Serangoon North", "Lim Chu Kang", "Marine Parade", "Choa Chu Kang (Central)", "Dhoby Ghaut", "Nicoll Highway", "Botanic Garden", "Whampoa")
 
 # Remove rows with the specified station names
-weather_unique <- weather_unique[!weather$Station %in% stations_to_remove, ]
+weather_unique <- weather_unique[!weather_unique$Station %in% stations_to_remove, ] # 29 Feb: replaced !weather with !weather_unique
 ```
 
 Table below shows that unique weather stations in the data table after removal of incomplete data.
@@ -265,7 +284,7 @@ datatable(weather_summary_long,
 
 ```
 
-We Summarize the total number of months with missing data per station.
+We summarize the total number of months with missing data per station.
 
 ```{r}
 station_missing_summary <- weather_summary %>%
@@ -386,6 +405,8 @@ weather_unique_imputed <- weather_unique_imputed %>%
   select(Station, Date, everything(), -Year, -Month, -Day)
 ```
 
+### Add Date column to data
+
 ```{r}
 
 # Ensure Date column exists
@@ -423,8 +444,18 @@ datatable(weather_unique_imputed,
 
 ```
 
+## Save data to rds
+
 Following code is used to export the imputed data table to csv.
+
 ```{r}
 #| eval: false
-write_csv(weather_unique_imputed, "weather_imputed.csv")
+write_rds(weather_unique_imputed, "../data/weather_imputed.rds")
+```
+
+To read data in the future, use the following code chunk:
+
+```{r}
+#| eval: false
+weather_data <- read_rds("../data/weather_imputed.rds")
 ```

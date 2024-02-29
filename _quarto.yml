@@ -15,14 +15,12 @@ website:
         href: proposal/proposal.html
       - text: Prototyping
         menu:
-          - text: Data Retrieval and Wrangling
-            href: code/data_retrieval/data_retrieval.html
-          - text: Weather Exploratory Data Analysis 1
-            href: code/EDA/EDA_Weather_serena.html
-          - text: Air quality Exploratory Data Analysis 1
-            href: code/EDA/EDA_AirQuality_serena.html
+          - text: Data retrieval and wrangling
+            href: code/data_retrieval.html
           - text: Data preparation for Weather
             href: code/Data_preparation_Weather.html
+          - text: Exploratory data analysis for Air Quality
+            href: code/EDA_airquality.html
       - text: "Shiny App"
         menu:
           - text: "User Guide"

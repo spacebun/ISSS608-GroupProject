@@ -6,7 +6,7 @@ date-modified:  last-modified
 format:
   html:
     toc: true
-    number-sections: false
+    number-sections: true
     code-line-numbers: false
     
 execute: 
@@ -17,23 +17,19 @@ execute:
 draft: true
 ---
 
+## 
+
+::: callout-note
+page in draft mode
+:::
+
 ## Overview
 
-Summary of project proposal:
-
-We are using temperature, rainfall and concentration of [6 air pollutants](https://www-nea-gov-sg-admin.cwp.sg/our-services/pollution-control/air-pollution/faqs#chapterB) for various areas in Singapore for the period of 2014 to 2023.
-
--   Explore trends across time (2014-2023) and areas in Singapore for each variable.
-
--   
+For air quality, we have the concentration of [6 air pollutants](https://www-nea-gov-sg-admin.cwp.sg/our-services/pollution-control/air-pollution/faqs#chapterB) for various areas in Singapore for the period of 2014 to 2023.
 
 Objective of this exercise is to:
 
 -   Explore visualizations for air quality
-
--   Wrangle the 'weather' dataset by categorising into 5 areas based on this <https://www-nea-gov-sg-admin.cwp.sg/our-services/pollution-control/air-pollution/faqs#chapterB>
-
--   
 
 ## Getting Started
 
@@ -60,7 +56,7 @@ pacman::p_load(naniar,
 ### Import data
 
 ```{r}
-pollutants <- read_csv("../../data/pollutants_singapore.csv", locale = locale(encoding = "ISO-8859-1"))
+pollutants <- read_csv("../data/pollutants_singapore.csv", locale = locale(encoding = "ISO-8859-1"))
 ```
 
 ### Check data health
@@ -125,13 +121,12 @@ The air monitoring sensors measure concentration levels of **six** air pollutant
 
 PSI is the air quality index used in Singapore. It is reported as a number on a scale of **0 to 500**. In this dataset, the *psi* column is the 24-hour PSI value.
 
-
 ### More on PSI
 
 PSI can be grouped by index values and descriptors, explaining the effects of the levels, according to Singapore's National Environment Agency (NEA).
 
 |   PSI   |   Descriptor   |                                                          General Health Effects                                                           |
-|:----------:|:--------------:|:-------------------------------------------:|
+|:---------------:|:---------------:|:------------------------------------:|
 |  0–50   |      Good      |                                                                   None                                                                    |
 | 51–100  |    Moderate    |                                                  Few or none for the general population                                                   |
 | 101–200 |   Unhealthy    | Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects. To stay indoors. |
@@ -139,7 +134,6 @@ PSI can be grouped by index values and descriptors, explaining the effects of th
 |  301+   |   Hazardous    |                                     Health alert: everyone may experience more serious health effects                                     |
 
 The PSI is computed based on the 24-hour average of concentration levels of 6 pollutants. A sub-index value is computed for each pollutant based on the pollutant’s ambient air concentration. The highest sub-index value is then taken as the PSI value. **In other words, the PSI is determined by the pollutant with the most significant concentration.** Technical details on how the PSI is calculated can be found here: [computation of PSI](http://www.haze.gov.sg/docs/default-source/faq/computation-of-the-pollutant-standards-index-(psi).pdf).
-
 
 ### Pre-processing (WIP)
 
@@ -201,7 +195,6 @@ ggplot(pollutants_filtered, aes(x = pm25, fill = Area)) +
 
 
 ```
-
 
 ```{r}
 #| code-fold: false
