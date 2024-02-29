@@ -21,6 +21,8 @@ website:
             href: code/EDA/EDA_Weather_serena.html
           - text: Air quality Exploratory Data Analysis 1
             href: code/EDA/EDA_AirQuality_serena.html
+          - text: Data preparation for Weather
+            href: code/Data_preparation_Weather.html
       - text: "Shiny App"
         menu:
           - text: "User Guide"
