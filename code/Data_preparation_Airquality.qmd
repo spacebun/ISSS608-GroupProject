@@ -52,9 +52,9 @@ For air quality, we have the following datasets:
 
 -   *pollutants:* Daily concentration of [6 air pollutants and PSI level](https://www-nea-gov-sg-admin.cwp.sg/our-services/pollution-control/air-pollution/faqs) for 5 areas in Singapore, for the period of approximately 2014 to 2023.
 
--   *pm25_hourly*: Historical regional 1-hr PM2.5 value measured in µg/m3, for period April 2014 to Dec 2022. Retrieved from [Data.gov.sg: Historical 24-hr PSI](https://beta.data.gov.sg/collections/1380/view).
+-   *pm25_hourly*: Historical regional 1-hr PM2.5 value measured in µg/m3, for period April 2014 to Dec 2022. Retrieved from [Data.gov.sg: Historical 1-hr PM2.5](https://beta.data.gov.sg/collections/1379/view).
 
--   *psi_24h*: Historical regional 24-hr PSI, for period April 2014 to Dec 2022. Retrieved from [Data.gov.sg: Historical 1-hr PM2.5](https://beta.data.gov.sg/collections/1379/view).
+-   *psi_24h*: Historical regional 24-hr PSI, for period April 2014 to Dec 2022. Retrieved from [Data.gov.sg: Historical 24-hr PSI](https://beta.data.gov.sg/collections/1380/view).
 
 ## Data Preparation: *pollutants*
 
@@ -515,7 +515,7 @@ According to Singapore's National Environment Agency (NEA), [1-hour PM~2.5~ valu
 PSI can be grouped by index values and descriptors, explaining the effects of the levels, according to Singapore's National Environment Agency (NEA).
 
 |   PSI   |   Descriptor   |                                                          General Health Effects                                                           |
-|:----------------:|:----------------:|:----------------------------------:|
+|:-----------------:|:-----------------:|:----------------------------------:|
 |  0–50   |      Good      |                                                                   None                                                                    |
 | 51–100  |    Moderate    |                                                  Few or none for the general population                                                   |
 | 101–200 |   Unhealthy    | Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects. To stay indoors. |
