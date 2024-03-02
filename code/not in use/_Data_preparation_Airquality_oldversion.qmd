@@ -1,0 +1,253 @@
+---
+title: "Data Preparation"
+subtitle: "Air Quality / Pollutants"
+date: February 25, 2024
+date-modified:  last-modified
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-line-numbers: false
+    
+execute: 
+  eval: true
+  echo: true
+  warning: false  
+---
+
+## Overview
+
+For air quality, we have the daily concentration of [6 air pollutants and PSI level](https://www-nea-gov-sg-admin.cwp.sg/our-services/pollution-control/air-pollution/faqs) for 5 areas in Singapore, for the period of 2014 to 2023.
+
+Objective of this exercise is to perform data preparation for air quality dataset.
+
+## Getting Started
+
+### Load libraries
+
+First, we load packages required:
+
+-   **tidyverse**: for
+-   **naniar**: for using *miss_vis()* function to check data for missing values
+-   **DT**: for using *datatable()* to view the dataset interactively
+
+```{r}
+pacman::p_load(naniar,
+               tidyverse, haven,
+               ggrepel, ggthemes,
+               ggridges, ggdist,
+               patchwork, ggpattern,
+               hrbrthemes, plotly,
+               sf, tmap,
+               lubridate,
+               DT,
+               imputeTS)
+```
+
+### Import data
+
+```{r}
+pollutants <- read_csv("../data/pollutants_singapore.csv", locale = locale(encoding = "ISO-8859-1"))
+```
+
+## Data Preparation
+
+### Check structure with `glimpse()`
+
+```{r}
+glimpse(pollutants)
+```
+
+There are 18, 390 rows, and 9 columns in the dataset. Here are more details on the 9 columns:
+
+-   *Area* <chr>: The ambient air quality in Singapore is continuously monitored through a network of air monitoring sensors across the island. The data from the air monitoring sensors are reported for [five regions](https://www.nea.gov.sg/our-services/pollution-control/air-pollution/faqs) in Singapore – **North, South, East, West, Central**.
+
+-   *date* <chr>: The date for each row is recorded in YYYY/MM/DD format, of type chr.
+
+    -   **We will need to convert this to date/time class e.g. Date, POSIXct, or POSIXlt.**
+
+    -   **We will also select the time period of 2021-2023, to align the time period of this dataset with the weather dataset.**
+
+-   *pm25*, *pm10*, *o3*, *no2*, *so2*, *co* <dbl>: The air monitoring sensors measure concentration levels of **six** air pollutants: fine particulate matter (PM~2.5~), particulate matter (PM~10~), ozone (O~3~), nitrogen dioxide (NO~2~), sulphur dioxide (SO~2~) and carbon monoxide (CO). The values are reported in µg/m^3^ for each 24h period / day.
+
+-   *psi* <dbl>: PSI is the air quality index used in Singapore. It is reported as a number on a scale of **0 to 500**.
+
+### Convert date column to date type
+
+The code below converts the *date* column to type 'Date' and renames it to *Date*.
+
+```{r}
+# Convert date column from character to date type
+pollutants <- pollutants %>%
+  mutate(date = trimws(date), 
+         date = as.Date(date, format="%Y/%m/%d"))
+
+# Rename date column top 'Date'
+pollutants <- pollutants %>% 
+       rename("Date" = "date")
+
+# Check that date column is now date type
+class(pollutants$Date)
+```
+
+### Filter desired period, 2021 to 2023
+
+For this project, we focus on the year 2021 to 2023.
+
+```{r}
+pollutants <- pollutants %>%
+  filter(between(Date, as.Date('2021-01-01'), as.Date('2023-12-31')))
+
+# Check time period of data
+time_period_start <- min(pollutants$Date)
+time_period_end <- max(pollutants$Date)
+
+# Print the time period
+cat("The time period of the filtered dataset is from", format(time_period_start, "%Y-%m-%d"),"to", format(time_period_end, "%Y-%m-%d"), "\n")
+```
+
+### Check for duplicated rows
+
+We use the following code to check for duplicated data based on combination of Area and Date. If there is any duplicated data, it will be shown.
+
+```{r}
+# Identify duplicates
+duplicates <- pollutants[duplicated(pollutants[c("Area", "Date")]) | duplicated(pollutants[c("Area", "Date")], fromLast = TRUE), ]
+
+# Check if 'duplicates' dataframe is empty
+if (nrow(duplicates) == 0) {
+  print("The combination of Area and Date is unique.")
+} else {
+  print("There are duplicates. Showing duplicated rows:")
+  # Print out the duplicated rows
+  print(duplicates)
+}
+```
+
+There are no duplicated rows in our dataset.
+
+### Check for missing values
+
+We will first visually assess if there are any missing values using `vis_miss()` from the **naniar** package.
+
+```{r}
+vis_miss(pollutants)
+```
+
+We see that there are almost no values for two columns, *no2* and *psi*. We will drop these columns in the next step. There are also missing values for *pm25*, *pm10*, *o3*, *so2*, *co* columns. We will select a suitable imputation method to handle these missing values as well.
+
+### Drop columns with several missing values
+
+In the code below, we drop the columns *no2* and *psi*.
+
+```{r}
+pollutants <- pollutants %>%
+  select(-c(no2, psi))
+```
+
+### Impute missing values
+
+To handle the missing values for *pm25*, *pm10*, *o3*, *so2*, *co* columns, we will first check the number of consecutive missing values for each combination of *Area* and each pollutant.
+
+```{r}
+# Define the areas and pollutants to loop through
+areas <- c(unique(pollutants$Area))
+pollutants_columns <- c("pm25", "pm10", "o3", "so2", "co")
+
+# Loop through each area
+for (area in areas) {
+  cat(sprintf("\nIn area '%s':\n", area))
+  # Loop through each pollutant column
+  for (pollutant in pollutants_columns) {
+    # Filter for the current area and select the current pollutant column
+    area_data <- pollutants %>%
+      filter(Area == area) %>%
+      select(Date, !!sym(pollutant))
+    
+    # Create a logical vector indicating NA positions for the current pollutant
+    is_na_vector <- is.na(area_data[[pollutant]])
+    
+    # Use rle to find consecutive NAs
+    na_runs <- rle(is_na_vector)
+    
+    # Identify the lengths and positions of consecutive NAs
+    consecutive_na_info <- na_runs$lengths[na_runs$values == TRUE]
+    
+    # Check and report consecutive NAs
+    if(any(consecutive_na_info > 1)) {
+      cat(sprintf("%s: There are consecutive missing values. ", pollutant))
+      cat("Details (length of consecutive NAs):", consecutive_na_info[consecutive_na_info > 1], "\n")
+    } else {
+      cat(sprintf("%s: No consecutive missing values.\n", pollutant))
+    }
+  }
+}
+```
+
+Next, we will impute missing values using simple moving average.
+
+```{r}
+
+# List of pollutants
+pollutant_variables <- c("pm25", "pm10", "o3", "so2", "co")
+
+# Loop through each pollutant variable to impute missing values
+for(variable in pollutant_variables) {
+  # Apply the imputation by grouping by Area and arranging by Date
+  pollutants <- pollutants %>%
+    group_by(Area) %>%
+    arrange(Area, Date) %>%
+    mutate(!!variable := na_ma(!!sym(variable), k = 3, weighting = "simple")) %>%
+    ungroup()
+}
+```
+
+```{r}
+str(pollutants)
+```
+
+```{r}
+# Identify duplicates
+duplicates <- pollutants_imputed[duplicated(pollutants_imputed[c("Area", "Date")]) | duplicated(pollutants_imputed[c("Area", "Date")], fromLast = TRUE), ]
+
+# Check if 'duplicates' dataframe is empty
+if (nrow(duplicates) == 0) {
+  print("The combination of Area and Date is unique.")
+} else {
+  print("There are duplicates. Showing duplicated rows:")
+  # Print out the duplicated rows
+  print(duplicates)
+}
+```
+
+## Appendix
+
+### Understanding PSI
+
+PSI can be grouped by index values and descriptors, explaining the effects of the levels, according to Singapore's National Environment Agency (NEA).
+
+|   PSI   |   Descriptor   |                                                          General Health Effects                                                           |
+|:--------------:|:--------------:|:--------------------------------------:|
+|  0–50   |      Good      |                                                                   None                                                                    |
+| 51–100  |    Moderate    |                                                  Few or none for the general population                                                   |
+| 101–200 |   Unhealthy    | Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects. To stay indoors. |
+| 201–300 | Very unhealthy |                       Health warnings of emergency conditions. The entire population is more likely to be affected.                       |
+|  301+   |   Hazardous    |                                     Health alert: everyone may experience more serious health effects                                     |
+
+The PSI is computed based on the 24-hour average of concentration levels of 6 pollutants. A sub-index value is computed for each pollutant based on the pollutant’s ambient air concentration. The highest sub-index value is then taken as the PSI value. **In other words, the PSI is determined by the pollutant with the most significant concentration.** Technical details on how the PSI is calculated can be found here: [computation of PSI](http://www.haze.gov.sg/docs/default-source/faq/computation-of-the-pollutant-standards-index-(psi).pdf).
+
+## Data preparation
+
+### Overview
+
+Below is the summary of data preparation steps
+
+1.  Convert date column to date type
+
+2.  Select the years 2021 to 2023
+
+3.  Drop columns *psi* and *no2* due to large number of missing values
+
+4.  Impute missing values for *pm25*, *pm10*, *o3*, *so2*, *co* columns.
+
+5.  Check data health again
