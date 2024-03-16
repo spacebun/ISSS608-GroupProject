@@ -19,8 +19,6 @@ website:
             href: code/data_retrieval.html
           - text: Data preparation for Weather
             href: code/Data_preparation_Weather.html
-          - text: Data preparation for Air Quality
-            href: code/Data_preparation_Airquality.html
       - text: "Shiny App"
         menu:
           - text: "User Guide"

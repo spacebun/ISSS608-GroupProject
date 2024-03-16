@@ -141,10 +141,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../code/Data_preparation_Weather.html">
  <span class="dropdown-text">Data preparation for Weather</span></a>
   </li>  
-        <li>
-    <a class="dropdown-item" href="../code/Data_preparation_Airquality.html">
- <span class="dropdown-text">Data preparation for Air Quality</span></a>
-  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -194,7 +190,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#download-data-climate-historical-daily-records" id="toc-download-data-climate-historical-daily-records" class="nav-link" data-scroll-target="#download-data-climate-historical-daily-records"><span class="header-section-number">1.2</span> Download data: Climate <strong>Historical Daily Records</strong></a></li>
   </ul></li>
-  <li><a href="#air-quality" id="toc-air-quality" class="nav-link" data-scroll-target="#air-quality"><span class="header-section-number">2</span> Air Quality</a></li>
   </ul>
 </nav>
     </div>
@@ -221,7 +216,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">February 29, 2024</p>
+      <p class="date-modified">March 16, 2024</p>
     </div>
   </div>
     
@@ -232,19 +227,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>page in draft mode</p>
-</div>
-</div>
 <section id="climate-historical-daily-records" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Climate Historical Daily Records</h1>
 <p>The Climate Historical Daily Records of various climate stations in Singapore can be retrieved from <a href="http://www.weather.gov.sg/climate-historical-daily/">here</a>. However, as the data is available in .csv files for each month, we have written the below code to:</p>
@@ -335,17 +317,9 @@ Note
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>weather_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../data/climate_historical_daily_records.csv"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-</section>
-<section id="air-quality" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Air Quality</h1>
-<p>*Done in python: Combined the 5 air quality .CSV files into a single CSV file, and adding area as a column in the CSV file.</p>
-<p>To load the data for air quality in the future, follow the code in the code chunk below.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pollutants_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../data/pollutants_singapore.csv"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

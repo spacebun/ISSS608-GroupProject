@@ -17,6 +17,10 @@ execute:
 draft: true
 ---
 
+::: callout-note
+page in draft mode
+:::
+
 # Climate Historical Daily Records
 
 The Climate Historical Daily Records of various climate stations in Singapore can be retrieved from [here](http://www.weather.gov.sg/climate-historical-daily/). However, as the data is available in .csv files for each month, we have written the below code to:
@@ -103,4 +107,14 @@ To load this CSV file for climate historical daily records (2014-2023) in the fu
 
 ```{r}
 weather_data <- read_csv("../data/climate_historical_daily_records.csv") 
+```
+
+# Air Quality
+
+\*Done in python: Combined the 5 air quality .CSV files into a single CSV file, and adding area as a column in the CSV file.
+
+To load the data for air quality in the future, follow the code in the code chunk below.
+
+```{r}
+pollutants_data <- read_csv("../data/pollutants_singapore.csv") 
 ```
