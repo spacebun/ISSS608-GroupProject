@@ -24,11 +24,11 @@ website:
       - text: "Shiny App"
         menu:
           - text: "User Guide"
-            href: artifacts/userguide.pdf
+            href: shinyapp/userguide.pdf
           - text: "Shiny App"
             href: https://isss608-group9-weatheranalytics.shinyapps.io/shinyapp/
       - text: "Project Poster"
-        href: artifacts/poster.pdf
+        href: shinyapp/poster.pdf
       - text: "The Team"
         href: about.html
 
