@@ -2,7 +2,7 @@ project:
   type: website
 
 website:
-  title: "AirWeather Analytics"
+  title: "Weather Analytics"
   image: "images/sunny.png"
   favicon: "images/sunny.png"
   navbar:
