@@ -1,7 +1,7 @@
 # Section 1: Set up ----
 pacman::p_load(gstat)
 pacman::p_load(tmap)
-pacman::p_load(shiny, shinydashboard, shinyWidgets, tidyverse, ggthemes, plotly, sf, terra, viridis, ggHoriPlot, ggstatsplot, rstantools, ISOweek, DT, nortest, ggridges, tsibble, tsibbledata, feasts, fable, fabletools, fable.prophet, RColorBrewer, urca, bslib, parameters)
+pacman::p_load(shiny, shinydashboard, shinyWidgets, tidyverse, ggthemes, plotly, sf, terra, viridis, ggHoriPlot, ggstatsplot, rstantools, ISOweek, DT, nortest, ggridges, tsibble, tsibbledata, feasts, fable, fabletools, fable.prophet, RColorBrewer, urca, bslib, parameters, shinybusy)
 
 # Section 1.1: Variables and Functions ----
 ## Import data 
@@ -121,23 +121,37 @@ sidebar <- dashboardSidebar(
   width = 170,
   tags$head(
     tags$style(HTML(
-      ".sidebar-menu > li > a, .sidebar-menu .treeview-menu > li > a 
-      {white-space: normal; 
+      ".sidebar-menu > li > a, .sidebar-menu .treeview-menu > li > a {
+        white-space: normal; 
         line-height: 1.2;
         font-size: 12px;
+      }
+      /* Custom styles for the image */
+      .sidebar-logo {
+        padding: 10px;
+        text-align: center; /* Center the image */
+      }
+      .sidebar-logo img {
+        width: 80%; /* Adjust the image size */
+        margin-bottom: 10px; /* Extra space below the image */
       }"
     ))
+  ),
+  # Use div with custom class for styling and placing the image
+  div(class = "sidebar-logo",
+      tags$img(src = "sunny.png", alt = "Logo")
   ),
   sidebarMenu(
     menuItem("Landing Page", tabName = "LandingPage", icon = icon("home")),
     menuItem("Exploratory & Confirmatory Data Analysis", tabName = "EDACDA", icon = icon("temperature-half")),
     menuItem("Univariate Forecasting", tabName = "Univariate", icon = icon("chart-line"),
-    menuSubItem("Exploratory Time Series", tabName = "ExploreTS"),
-    menuSubItem("Time Series Decomposition", tabName = "DecomposeTS"),
-    menuSubItem("Forecasting", tabName = "ForecastTS")),
+             menuSubItem("Exploratory Time Series", tabName = "ExploreTS"),
+             menuSubItem("Time Series Decomposition", tabName = "DecomposeTS"),
+             menuSubItem("Forecasting", tabName = "ForecastTS")
+    ),
     menuItem("Spatial Interpolation", tabName = "Geospatial", icon = icon("globe-asia"))
-    )
   )
+)
 # Section 3: CDA UI ----
 CDAUI <- fluidPage(
   fluidRow(tabBox(
@@ -360,16 +374,16 @@ GeospatialUI <- fluidPage(
                  column(10,
                         fluidRow(
                           box(title =  tags$h4("Experimental and Fitted Variograms"), width = 12, solidHeader = TRUE, collapsible = TRUE, collapsed = TRUE,
-                          column(6,plotOutput("GS_OK_variogram", height = "200px")),
-                          column(6,plotOutput("GS_OK_fitted_variogram", height = "200px"))
+                          column(6,plotOutput("GS_OK_variogram", height = "400px")),
+                          column(6,plotOutput("GS_OK_fitted_variogram", height = "400px"))
                           )
                         ),
-                        
+                        fluidRow(uiOutput("GS_OK_result_title")),
                         fluidRow(
-                          column(12,plotOutput("GS_OK_map"))),
-                        fluidRow(
-                          column(12,plotOutput("GS_OK_prediction_variance"))
-                        ))
+                          column(6,plotOutput("GS_OK_map",width = "100%", height = "500px")),
+                          column(6,plotOutput("GS_OK_prediction_variance",width = "100%", height = "500px")))
+
+                 )
                )
       )
     )
@@ -380,17 +394,43 @@ GeospatialUI <- fluidPage(
 # Define UI
 LandingPageUI <- fluidPage(
   fluidRow(
-    column(width = 5,
-           h2("A Visual Exploration Tool for Singapore's Climate"),
+    column(width = 6,
+           h2("A Visual Exploration Tool for Singapore's Weather"),
            p("Understanding Singapore's changing weather patterns is crucial, yet current tools for visualizing historical weather data are limited, often static, and lack depth. To fill this gap, we developed this interactive R Shiny application. Use this tool to explore and analyse Singapore's weather (2021-2023)!"),
-           h3("Dataset Description"),
-           p("Singapore Climate Records (2021-2023)"),
-           p("Our dataset comprises historical daily records of rainfall and temperature across 11 locations in Singapore, spanning from 2021 to 2023. It provides a detailed look into the climate variations experienced in recent years.")
-    )
+           h3("Overview of modules in app"),
+           tags$img(src = "overview.png", width = "100%"),
+           p(strong("Exploratory & Confirmatory Data Analysis:"), 
+             " Enables analysis of climate variables across stations and time periods, using statistical tests and interactive plots to identify weather patterns."),
+           p(strong("Univariate Forecasting:"), 
+             " Combines exploratory analysis, decomposition, and advanced forecasting with seasonal adjustment for accurate weather predictions across multiple stations."),
+           p(strong("Spatial Interpolation:"), 
+             " Generates isohyet/isotherm maps from sparse data, using interpolation techniques to estimate conditions at unmonitored locations, informed by data from Singapore's weather stations."),
+           # p("The app consists of three key modules, each enabling the user to conduct a type of visual analysis with the dataset. The Exploratory & Confirmatory Data Analysis module allows users to conduct comparative analyses of weather data over different spatial and temporal scales. The Univariate Forecasting module provides a comprehensive toolkit of different forecasting models. The Spatial Interpolation module allows users to generate isohyet or isotherm maps to estimate rainfall/temperature at unmonitored locations. "),
+           p("Click ", a("here", href = "https://isss608-group9-weatheranalytics.netlify.app/shinyapp/userguide.pdf", target = "_blank"), " to view the user guide.")
+           
+    ),
+    column(3,
+           uiOutput("hottestTemperatureInfo"),
+           HTML("<div style='margin-bottom: 10px;'></div>"),
+           uiOutput("wettestMonthInfo")),
+    column(3,
+           uiOutput("coolestTemperatureInfo"),
+           HTML("<div style='margin-bottom: 10px;'></div>"),
+           uiOutput("averageNumberOfRainyDaysInfo"))
+  ),
+  fluidRow(
+    column(6, 
+           h3("About the Dataset: Singapore Climate Records (2021-2023)"),
+           p("The dataset comprises historical daily records of rainfall and temperature across 11 locations in Singapore, spanning from 2021 to 2023."),
+           dataTableOutput("landingPageDataTable")),
+    column(6, tmapOutput("stationsTmap"))
+    
   )
 )
 # Section 7: Dashboard Body and UI ----
 body <- dashboardBody(
+  add_busy_spinner(spin = "fading-circle"),
+  
   tags$head(
     tags$link(rel = "stylesheet", type = "text/css", href = "https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&display=swap"),
   tags$style(HTML("
@@ -422,18 +462,19 @@ body <- dashboardBody(
 
       /* Customize the main header and navbar with a bold font */
       .skin-blue .main-header .logo, .skin-blue .main-header .logo:hover, .skin-blue .main-header, .skin-blue .main-header .navbar {
-        background-color: #1B264F !important;
+        background-color: #3D8DBC !important;
         font-family: 'Merriweather Sans', sans-serif;
         font-weight: 700; /* Bold */
       }
         .skin-blue .main-header .logo:hover {
-          background-color: #1B264F;
+          background-color: #3D8DBC;
           font-family: 'Merriweather Sans', sans-serif;
         }
         .skin-blue .main-header, .skin-blue .main-header .navbar {
-      background-color: #1B264F !important;
+      background-color: #3D8DBC!important;
         font-family: 'Merriweather Sans', sans-serif;
         }
+
       "))
   ),
   tabItems(
@@ -451,6 +492,187 @@ ui <- dashboardPage(header, sidebar, body)
 
 # Section 8: Server code ----
 server <- function(input, output, session) {
+
+  #Landing Page ----
+  
+  output$landingPageDataTable <-DT::renderDataTable({
+    
+    tbl <- weather_data 
+    tbl <- tbl %>% select(c(Station, Date, `Daily Rainfall Total (mm)`, `Mean Temperature (°C)`, `Maximum Temperature (°C)`, `Minimum Temperature (°C)`,  LAT, LONG))
+    tbl$Station <-  as.factor(tbl$Station)
+    datatable(tbl, 
+              class= "hover",
+              rownames = FALSE,
+              width="80%", 
+              filter = 'top',
+              options = list(pageLength = 5, scrollX = TRUE))
+  })
+  
+  
+  output$stationsTmap <- renderTmap({
+    
+    unique_stations <- weather_data %>% 
+      select(Station, LAT, LONG) %>% 
+      distinct(LAT, LONG, .keep_all = TRUE)
+    
+    stations_sf <- st_as_sf(unique_stations, coords = c("LONG", "LAT"), crs = 4326)
+    
+    tm <-tm_basemap(server = "OpenStreetMap") + 
+      tm_shape(stations_sf) +
+      tm_dots(size = 0.2, col = '#9D6381', border.col = "#FDECEF",               # Set border color of dots to black
+              border.lwd = 1) +  # Adjust size as needed
+      tm_layout(title = "Station Locations in Singapore") +
+      tm_view(set.view = c(lon = 103.8198, lat = 1.3521, zoom = 11)) # Centering on Singapore
+    
+    tm
+
+  })
+
+  output$hottestTemperatureInfo <- renderUI({
+    # Find the row with the hottest temperature
+    hottest_row <- weather_data[which.max(weather_data$`Maximum Temperature (°C)`), ]
+    
+    # Extract the hottest temperature, station, and date
+    hottest_temperature <- hottest_row$`Maximum Temperature (°C)`
+    station <- hottest_row$Station
+    date <- hottest_row$Date
+    # Define a nice light red color for the box fill
+    box_fill_color <- "#ffcccc"
+    
+    tags$div(class = "panel panel-default", 
+             style = paste0("background-color: ", box_fill_color, "; border-color: ", box_fill_color, ";"),
+             tags$div(class = "panel-heading",
+                      # Use a div with display flex to place the image next to the temperature
+                      tags$div(style = "display: flex; align-items: center;",
+                               tags$img(src = "hot.png", height = "50px"), # Image from www folder
+                               tags$h2(paste0(hottest_temperature, " °C"), style = "margin-left: 10px;") # Temperature next to the image
+                      ),
+                      tags$h3("Hottest Temperature Recorded:", style = "margin-top: 10px; text-align: center;") # "Hottest Temperature" text below
+             ),
+             tags$div(class = "panel-body",
+                      HTML(paste0("<p><strong>Station:</strong> ", station, "</p>",
+                                  "<p><strong>Date:</strong> ", date, "</p>")) # Station and date info in the panel body
+             )
+    )
+  })
+  
+  output$coolestTemperatureInfo <- renderUI({
+    # Find the row with the coolest temperature
+    coolest_row <- weather_data[which.max(weather_data$`Minimum Temperature (°C)`), ]
+    
+    # Extract the coolest temperature, station, and date
+    coolest_temperature <- coolest_row$`Minimum Temperature (°C)`
+    station <- coolest_row$Station
+    date <- coolest_row$Date
+    # Define a nice light blue color for the box fill
+    box_fill_color <- "#D7F9FF"
+    
+    # Create a box using Shiny's tags for custom HTML content
+    tags$div(class = "panel panel-default",
+             style = paste0("background-color: ", box_fill_color, "; border-color: ", box_fill_color, ";"),
+             tags$div(class = "panel-heading",
+                      # Use a div with display flex to place the image next to the temperature
+                      tags$div(style = "display: flex; align-items: center;",
+                               tags$img(src = "cold.png", height = "50px"), # Image from www folder
+                               tags$h2(paste0(coolest_temperature, " °C"), style = "margin-left: 10px;") # Temperature next to the image
+                      ),
+                      tags$h3("Coolest Temperature Recorded", style = "margin-top: 10px; text-align: center;") # "Coolest Temperature" text
+             ),
+             tags$div(class = "panel-body",
+                      HTML(paste0("<p><strong>Station:</strong> ", station, "</p>",
+                                  "<p><strong>Date:</strong> ", date, "</p>")) # Station and date info in the panel body
+             )
+    )
+  })
+  
+  output$wettestMonthInfo <-renderUI({
+    # Ensure weather_data$`Daily Rainfall Total (mm)` is numeric
+    weather_data$`Daily Rainfall Total (mm)` <- as.numeric(as.character(weather_data$`Daily Rainfall Total (mm)`))
+    
+    # Aggregate rainfall by Year and Month to find total monthly rainfall
+    monthly_rainfall <- weather_data %>%
+      group_by(Year, Month) %>%
+      summarise(Total_Rainfall = sum(`Daily Rainfall Total (mm)`, na.rm = TRUE)) %>%
+      ungroup()
+    
+    # Find the month with the highest total rainfall
+    rainiest_month_info <- monthly_rainfall[which.max(monthly_rainfall$Total_Rainfall), ]
+    
+    
+    # Assuming rainiest_month_info has been calculated as shown above
+    
+    # Extract information
+    total_rainfall <- rainiest_month_info$Total_Rainfall
+    year <- rainiest_month_info$Year
+    month <- month.name[rainiest_month_info$Month] # Convert numeric month to name
+    
+    # Define a nice light blue color for the box fill
+    box_fill_color <- "#A8D5E2"
+    
+    # Create a box using Shiny's tags for custom HTML content
+    tags$div(class = "panel panel-default", 
+             style = paste0("background-color: ", box_fill_color, "; border-color: ", box_fill_color, ";"),
+             tags$div(class = "panel-heading",
+                      # Flex display to place the image next to the heading
+                      tags$div(style = "display: flex; align-items: center;",
+                               tags$img(src = "rain.png", height = "50px"), # Image from www folder
+                               tags$h2(paste0(month, " ", year), style = "margin-left: 10px;") # Month and Year next to the image
+                      ),
+                      tags$h3("Rainiest Month Recorded", style = "margin-top: 10px; text-align: center;") # Heading text below image and date
+             ),
+             tags$div(class = "panel-body",
+                      HTML(paste0("<p><strong>Total Rainfall (mm):</strong> ", total_rainfall, " mm</p>",
+                                  "<p>(Across all stations in Singapore)")) # Rainfall info in the panel body
+             )
+    )
+  })
+  
+  
+  output$averageNumberOfRainyDaysInfo <-renderUI({
+    # Ensure weather_data$`Daily Rainfall Total (mm)` is numeric
+    weather_data$`Daily Rainfall Total (mm)` <- as.numeric(as.character(weather_data$`Daily Rainfall Total (mm)`))
+    
+    # Identify rainy days (>0 mm rainfall)
+    weather_data <- mutate(weather_data, RainyDay = ifelse(`Daily Rainfall Total (mm)` > 0, 1, 0))
+    
+    # Aggregate to count rainy days per station and month
+    rainy_days_per_month_station <- weather_data %>%
+      group_by(Year, Month, Station) %>%
+      summarise(RainyDays = sum(RainyDay, na.rm = TRUE), .groups = 'drop') %>%
+      ungroup()
+    
+    # Find the station and month with the highest number of rainy days
+    max_rainy_days_info <- rainy_days_per_month_station[which.max(rainy_days_per_month_station$RainyDays), ]
+    
+    # Extract information
+    total_rainy_days <- max_rainy_days_info$RainyDays
+    year <- max_rainy_days_info$Year
+    month <- month.name[max_rainy_days_info$Month] # Convert numeric month to name
+    station_with_most_rainy_days <- max_rainy_days_info$Station
+    
+    # Define a nice light blue color for the box fill
+    box_fill_color <- "#D3D4D9"
+    
+    # Create a box using Shiny's tags for custom HTML content
+    tags$div(class = "panel panel-default", 
+             style = paste0("background-color: ", box_fill_color, "; border-color: ", box_fill_color, ";"),
+             tags$div(class = "panel-heading",
+                      tags$div(style = "display: flex; align-items: center;",
+                               tags$img(src = "kid.png", height = "50px"), # Image from www folder
+                               tags$h2(total_rainy_days, style = "margin-left: 10px;")
+                      ),
+                      tags$h3("Highest number of Rainy Days", style = "margin-top: 10px; text-align: center;")
+             ),
+             tags$div(class = "panel-body",
+                      HTML(paste0("<p><strong>Station:</strong> ", station_with_most_rainy_days, "</p>",
+                                  "<p><strong>Month & Year:</strong> ", month, " ", year, "</p>"))
+             )
+    )
+  })
+  
+  
+  
+  
   # CDA: Compare Across Stations ----
   
   # 1. Dynamic UI: CDA_AS_dynamic_time_resolution
@@ -1885,7 +2107,7 @@ server <- function(input, output, session) {
       kvar <- rasterize(resp, grid, field = "variance")
     
     list(variable_data = results$variable_data, variable_data_sf = results$variable_data_sf, legend_title= results$legend_title, main_title = main_title, palette= results$palette, var_title = results$var_title, 
-         kpred = kpred, kvar = kvar, v = v, fv = fv)
+         kpred = kpred, kvar = kvar, v = v, fv = fv, UI_title = "Result of Interpolation")
   })
   
   # 3. Output plots
@@ -1924,6 +2146,12 @@ server <- function(input, output, session) {
       tm_layout(main.title = "Kriging Prediction Variance", main.title.position = "center", main.title.size = 1.2, legend.height = 0.45, legend.width = 0.35, frame = TRUE) +
       tm_compass(type="8star", size = 2) + tm_scale_bar() + tm_grid(alpha =0.2)
     
+  })
+  
+  
+  output$GS_OK_result_title <- renderUI({
+    UI_title <- GS_OK_event()$UI_title
+    tags$h4(UI_title)
   })
 }
 # Section 9: Run the application ---- 

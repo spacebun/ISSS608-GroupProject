@@ -1,0 +1,25 @@
+---
+title: "Prototyping"
+date: March 31, 2024
+date-modified:  last-modified
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-line-numbers: false
+    
+execute: 
+  eval: true
+  echo: true
+  warning: false  
+---
+
+# Overview
+
+The Shiny app comprises three key modules. Each module was designed to offer users a way to apply analytics and visualization to understand and draw insights from the dataset. A short description and the links to the prototyping done for the modules is below:
+
+-   [**Exploratory & Confirmatory Data Analysis**](https://kbuathang-isss608-vaa.netlify.app/take-home_ex/take-home_ex4/take-home_ex4): Enables analysis of climate variables across stations and time periods, using statistical tests and interactive plots to identify weather patterns.
+
+-   [**Univariate Forecasting**](https://jiajialim-isss608.netlify.app/take-home_ex/take-home_ex4/take-home_ex4): Combines exploratory analysis, decomposition, and advanced forecasting with seasonal adjustment for accurate weather predictions across multiple stations.
+
+-   [**Spatial Interpolation**](https://isss608-spacebun.netlify.app/take-home_ex/take-home_ex4/take-home_ex4): Generates isohyet/isotherm maps from sparse data, using interpolation techniques to estimate conditions at unmonitored locations, informed by data from Singapore's weather stations.

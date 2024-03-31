@@ -19,14 +19,16 @@ website:
             href: code/data_retrieval.html
           - text: Data preparation for Weather
             href: code/Data_preparation_Weather.html
+          - text: Prototyping for app modules
+            href: code/prototyping.html
       - text: "Shiny App"
         menu:
           - text: "User Guide"
-            href: shinyapp/shinyappuserguide.html
+            href: artifacts/userguide.pdf
           - text: "Shiny App"
-            href: shinyapp/shinyapp.html
+            href: https://isss608-group9-weatheranalytics.shinyapps.io/shinyapp/
       - text: "Project Poster"
-        href: poster/poster.html
+        href: artifacts/poster.pdf
       - text: "The Team"
         href: about.html
 

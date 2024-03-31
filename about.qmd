@@ -2,4 +2,12 @@
 title: "About the team"
 ---
 
-Coming soon\~
+Hello! We're Group 9, consisting of the following team members:
+
+-   Kanyapak Buathang
+
+-   Lew Ying Zhen Serena
+
+-   Lim Jia Jia
+
+We'd like to express our deepest gratitude to Prof Kam for leading us through this semester with such dedication and enthusiasm. Through your class we have learnt about the technicalities of visual analytics and have also been inspired to think critically and creatively. Your teachings will remain with us as we move forward, applying the knowledge and skills we've acquired in our future endeavors.
