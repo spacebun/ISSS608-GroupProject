@@ -8,7 +8,7 @@
 
 <meta name="dcterms.date" content="2024-02-11">
 
-<title>Weather Analytics - Proposal</title>
+<title>Weather Analytics - Overview of Project</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -91,8 +91,8 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="../proposal/proposal.html" aria-current="page"> 
-<span class="menu-text">Proposal</span></a>
+    <a class="nav-link active" href="../overview/overview.html" aria-current="page"> 
+<span class="menu-text">Overview</span></a>
   </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-prototyping" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -152,16 +152,19 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#motivation" id="toc-motivation" class="nav-link active" data-scroll-target="#motivation">Motivation</a></li>
+  <li><a href="#a-visual-analytics-tool-for-singapores-climate" id="toc-a-visual-analytics-tool-for-singapores-climate" class="nav-link active" data-scroll-target="#a-visual-analytics-tool-for-singapores-climate">A Visual Analytics Tool for Singapore’s Climate</a>
+  <ul class="collapse">
+  <li><a href="#motivation" id="toc-motivation" class="nav-link" data-scroll-target="#motivation">Motivation</a></li>
   <li><a href="#the-problems-addressed" id="toc-the-problems-addressed" class="nav-link" data-scroll-target="#the-problems-addressed">The problems addressed</a></li>
   <li><a href="#relevant-related-work" id="toc-relevant-related-work" class="nav-link" data-scroll-target="#relevant-related-work">Relevant related work</a></li>
   <li><a href="#our-solution" id="toc-our-solution" class="nav-link" data-scroll-target="#our-solution">Our solution</a></li>
   <li><a href="#the-data" id="toc-the-data" class="nav-link" data-scroll-target="#the-data">The data</a></li>
   <li><a href="#approach-and-prototypes" id="toc-approach-and-prototypes" class="nav-link" data-scroll-target="#approach-and-prototypes">Approach and prototypes</a>
   <ul class="collapse">
-  <li><a href="#birds-eye-view-of-weather-and-air-quality" id="toc-birds-eye-view-of-weather-and-air-quality" class="nav-link" data-scroll-target="#birds-eye-view-of-weather-and-air-quality"><strong>1. Bird’s Eye View of Weather and Air Quality</strong></a></li>
-  <li><a href="#time-series-toolkit" id="toc-time-series-toolkit" class="nav-link" data-scroll-target="#time-series-toolkit"><strong>2. Time-series Toolkit</strong></a></li>
-  <li><a href="#climate-pollutant-relationship-explorer" id="toc-climate-pollutant-relationship-explorer" class="nav-link" data-scroll-target="#climate-pollutant-relationship-explorer">3. Climate-Pollutant Relationship Explorer</a></li>
+  <li><a href="#exploratory-and-confirmatory-data-analysis" id="toc-exploratory-and-confirmatory-data-analysis" class="nav-link" data-scroll-target="#exploratory-and-confirmatory-data-analysis"><strong>1. Exploratory and Confirmatory Data Analysis</strong></a></li>
+  <li><a href="#univariate-forecasting" id="toc-univariate-forecasting" class="nav-link" data-scroll-target="#univariate-forecasting"><strong>2. Univariate Forecasting</strong></a></li>
+  <li><a href="#spatial-interpolation" id="toc-spatial-interpolation" class="nav-link" data-scroll-target="#spatial-interpolation"><strong>3. Spatial Interpolation</strong></a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -171,8 +174,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Proposal</h1>
-<p class="subtitle lead">AirWeather Analytics: A Visual Exploration Tool for Singapore’s Climate and Air Quality</p>
+<h1 class="title">Overview of Project</h1>
 </div>
 
 
@@ -190,7 +192,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">February 12, 2024</p>
+      <p class="date-modified">April 2, 2024</p>
     </div>
   </div>
     
@@ -201,29 +203,26 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="a-visual-analytics-tool-for-singapores-climate" class="level1">
+<h1>A Visual Analytics Tool for Singapore’s Climate</h1>
 <section id="motivation" class="level2">
 <h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
-<p>In Singapore, while there has been <a href="https://www.nccs.gov.sg/singapores-climate-action/overview/national-circumstances/">significant research on climate change</a>, the relationship between changing weather patterns and air quality has not been thoroughly explored. While The National Environment Agency in Singapore has made historical weather and air quality data accessible, there remains a shortage of user-friendly tools to effectively visualize and analyze this data for a deeper understanding of its implications. Exploring these datasets within a visual analytics environment can provide valuable insights for various users, from policymakers to the general public.</p>
+<p>In Singapore, the National Environment Agency in Singapore has provided extensive access to historical weather data. However, there remains a shortage of user-friendly tools to effectively visualize and analyze this data. Exploring these datasets within a visual analytics environment can provide valuable insights for various users, from policymakers to the general public.</p>
 </section>
 <section id="the-problems-addressed" class="level2">
 <h2 class="anchored" data-anchor-id="the-problems-addressed">The problems addressed</h2>
-<p>There are some visualizations made available by the government for climate trends and air quality through websites like <a href="http://www.weather.gov.sg/climate-trends/">Weather.gov.sg</a> and the <a href="https://www.haze.gov.sg/">Haze Information Portal</a>. However, these tools have some limitations:</p>
+<p>There are some visualizations made available by the government for climate trends and air quality through websites like <a href="http://www.weather.gov.sg/climate-trends/">Weather.gov.sg</a>. However, these tools have some limitations:</p>
 <ul>
 <li><p>The current tools predominantly feature basic, static visualizations fixed to specific timeframes, such as choropleth maps or maps with callouts. They lack interactivity that can display the spatial and temporal nature of the data across different areas in Singapore.</p></li>
-<li><p>There are no available tools with advanced analytical functions, such as anomaly detection, time series analysis, and future projection. Users are limited in observing trends in climate or air quality.</p></li>
-<li><p>Moreover, there is no integrated tool to explore, visualize and analyse the relationship between air pollutants and weather parameters (temperature, wind, and rainfall).</p></li>
+<li><p>There are no available tools with advanced analytical functions, such as comparative analysis, time series analysis, and spatial interpolation. Users are limited in observing trends in climate.</p></li>
 </ul>
-<p>This project aims to overcome the identified problems by developing an intuitive and visual analytics tool that allows one to explore historical weather and air quality in Singapore.</p>
+<p>This project aims to overcome the identified problems by developing a visual analytics tool that allows one to explore historical weather data in Singapore.</p>
 </section>
 <section id="relevant-related-work" class="level2">
 <h2 class="anchored" data-anchor-id="relevant-related-work">Relevant related work</h2>
-<p>This section will briefly discuss on some of relevant works that have already been done regarding weather and air quality.</p>
+<p>This section will briefly discuss on some of relevant works that have already been done regarding weather.</p>
 <ul>
-<li>In <a href="https://www.haze.gov.sg/">Haze Information Portal website</a> managed by National Environment Agency (NEA), air quality in Singapore is displayed through Pollutant Standards Index (PSI) and PM 2.5 indicators. The visualization presents current air quality condition in an hourly and a 24-hour overview. Also, they have categorized air quality into different groups for users to easily understand the current conditions. However, while the platform allows users to display air quality in specified areas immediately, it limits them to conduct comparative analysis across different regions or scope into historical data trends. Furthermore, the platform lacks forecasting tools which could enhance users more insightful information.</li>
-</ul>
-<p><img src="images/clipboard-3522218470.png" class="img-fluid"></p>
-<ul>
-<li><a href="http://www.weather.gov.sg/climate-historical-daily/">Meteorological Service Singapore website</a> has a section to view historical daily weather record in Singapore. Users can select various regions and retrieve climate data from different months and years. The interactive map provides a geographical plot of the data for users to select the areas. However, it lacks time series visualization that would allow users to analyse weather trends over multiple years. Moreover, the platform also does not support comparative analysis between different area in which it would be useful for understanding climate variation across different areas within Singapore.</li>
+<li>`<a href="http://www.weather.gov.sg/climate-historical-daily/">Meteorological Service Singapore website</a> has a section to view historical daily weather record in Singapore. Users can select various regions and retrieve climate data from different months and years. The interactive map provides a geographical plot of the data for users to select the areas. However, it lacks time series visualization that would allow users to analyse weather trends over time. The platform also does not support comparative analysis between different areas or across time frames, which it would be useful for understanding climate variation. Lastly, the collected data is limited to specific weather stations, with no way to estimate the weather at unmonitored locations.</li>
 </ul>
 <p><img src="images/clipboard-820038503.png" class="img-fluid"></p>
 <ul>
@@ -233,22 +232,23 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="our-solution" class="level2">
 <h2 class="anchored" data-anchor-id="our-solution">Our solution</h2>
-<p>Using various R packages, we will analyse and visualize weather and air quality across different areas in Singapore and build an interactive R Shiny application. Users will be able to:</p>
+<p>Using various R packages, we will design an application that enables users to conduct different types of analyses on the weather data in Singapore. Users will be able to conduct the following analyses:</p>
 <ol type="1">
-<li>Interactively explore customizable and dynamic visualizations that display weather and air quality data over time and across different regions in Singapore.</li>
-<li>Use selected analytical functions to highlight key patterns, identify anomalies, and make projections about future climate and air quality.</li>
-<li>Explore and visualize the interrelationship between various air pollutants and weather parameters like temperature, wind speed, and rainfall.</li>
+<li>Analyse rainfall or temperature across stations and time periods, using statistical tests and interactive plots to identify weather patterns.</li>
+<li>Conduct time series exploratory analysis, decomposition, and advanced forecasting with seasonal adjustment for accurate weather predictions across multiple stations.</li>
+<li>Generate isohyet/isotherm maps from sparse data. Achieved by using spatial interpolation techniques to estimate conditions at unmonitored locations, informed by data from Singapore’s weather stations.</li>
 </ol>
 </section>
 <section id="the-data" class="level2">
 <h2 class="anchored" data-anchor-id="the-data">The data</h2>
-<p>The following datasets will be used:</p>
+<p>Our dataset comprises historical daily records of rainfall and temperature across 11 locations in Singapore, spanning from 2021 to 2023. It provides a detailed look into the climate variations experienced in recent years.</p>
+<p>The dataset was retrieved from Weather.gov.sg, and all missing values were imputed using simple moving average.</p>
 <table class="table">
 <colgroup>
+<col style="width: 42%">
+<col style="width: 9%">
+<col style="width: 11%">
 <col style="width: 35%">
-<col style="width: 6%">
-<col style="width: 28%">
-<col style="width: 28%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -260,110 +260,30 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td><p>Climate Historical Daily Records for various stations in Singapore</p>
-<p>(rainfall, temperature and wind speed)</p></td>
+<td><p>Climate Historical Daily Records for 11 stations in Singapore</p>
+<p>(rainfall, temperature)</p></td>
 <td>Daily</td>
-<td>Period varies across stations but approx. 2014 – 2023</td>
+<td>2021-2023</td>
 <td>http://www.weather.gov.sg/climate-historical-daily/</td>
-</tr>
-<tr class="even">
-<td><p>Air quality for 5 locations in Singapore</p>
-<p>(PM2.5, PM10, O3, NO2, SO2, CO, PSI)</p></td>
-<td>Daily</td>
-<td>2014 - 2023</td>
-<td>http://www.weather.gov.sg/climate-historical-daily/</td>
-</tr>
-<tr class="odd">
-<td><p>Air Temperature And Sunshine, Relative Humidity And Rainfall</p>
-<p>(Changi climate station)</p></td>
-<td>Monthly</td>
-<td>Jan 1975 – Dec 2023</td>
-<td><p>M890081_monthly_temp&amp;rain_197501-202312.csv</p>
-<p>https://tablebuilder.singstat.gov.sg/table/TS/M890081</p></td>
 </tr>
 </tbody>
 </table>
+<p>Click to read more about the data retrieval <a href="../code/data_retrieval.html">here</a> and data preparation <a href="../code/data_retrieval.html">here</a>.</p>
 </section>
 <section id="approach-and-prototypes" class="level2">
 <h2 class="anchored" data-anchor-id="approach-and-prototypes">Approach and prototypes</h2>
-<section id="birds-eye-view-of-weather-and-air-quality" class="level3">
-<h3 class="anchored" data-anchor-id="birds-eye-view-of-weather-and-air-quality"><strong>1. Bird’s Eye View of Weather and Air Quality</strong></h3>
-<p>This module will show dynamic, interactive map with option to include both weather and air quality data across 5 key areas in Singapore. Users will be able to select different time frames and regions for detailed examination.</p>
-<p><strong>Prototype Features:</strong></p>
-<ul>
-<li><p>Tab 1: <strong>Map</strong></p>
-<ul>
-<li><p>Interactive mapping tool with zoom and pan functions.</p></li>
-<li><p>Layer selection for various weather and air quality parameters.</p></li>
-<li><p>Time slider to view data across different historical periods.</p></li>
-<li><p>Region-specific data display upon selection.</p></li>
-</ul></li>
-</ul>
-<p><img src="images/clipboard-1292530329.png" class="img-fluid"></p>
-<ul>
-<li><p>Tab 2: Plots</p>
-<ul>
-<li><p>Options to select distribution plots for key weather parameters and pollutants by area, including density plots, histograms, and boxplots.</p></li>
-<li><p>Comparative visualizations with side-by-side evaluations of multiple different areas or variables.</p></li>
-<li><p>Customizable granularity to observe either monthly or yearly view of the data.</p></li>
-</ul></li>
-</ul>
-<p><img src="images/clipboard-640642760.png" class="img-fluid"></p>
-<p>Following R packages will be used in this section:</p>
-<ul>
-<li><p>tidyverse (CRAN - Package tidyverse (r-project.org)): An ecosystem of packages designed for data science that makes it easy to tidy, transform, and visualize data.</p></li>
-<li><p>ggplot2 (CRAN - Package ggplot2 (r-project.org)): A powerful package for creating static, aesthetic, and informative graphics.</p></li>
-<li><p>plotly (CRAN - Package plotly (r-project.org)): Provides a high-level interface to Plotly, enabling the creation of interactive and dynamic visualizations.</p></li>
-<li><p>DT (CRAN - Package DT (r-project.org)): An interface to the JavaScript library DataTables, used to render interactive and rich data tables.</p></li>
-<li><p>sf (CRAN - Package sf (r-project.org)): An R package for handling and analyzing spatial data with simple features, which can interface with leaflet for mapping.</p></li>
-</ul>
+<section id="exploratory-and-confirmatory-data-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="exploratory-and-confirmatory-data-analysis"><strong>1. Exploratory and Confirmatory Data Analysis</strong></h3>
+<p>This module provides tools for conducting comparative analyses of weather data over different spatial and temporal scales, filling a gap where no existing tool offers such capabilities. It is designed to help users explore and understand weather patterns across various locations and time frames.</p>
 </section>
-<section id="time-series-toolkit" class="level3">
-<h3 class="anchored" data-anchor-id="time-series-toolkit"><strong>2. Time-series Toolkit</strong></h3>
-<p>This module enables users to forecast future climate conditions using historical data from 1975 to 2023. It offers interactive tools for model selection, prediction adjustments, and visualizes forecasts alongside historical data.</p>
-<p><strong>Prototype Features:</strong></p>
-<ul>
-<li><p>Model selection from a list of forecasting models (e.g., Linear Regression, ARIMA, Prophet) via checkbox</p></li>
-<li><p>Flexible selection for variables, period, forecast horizon and prediction parameters.</p></li>
-<li><p>Dynamic Prediction Charts to Visualize past trends and future projections.</p></li>
-</ul>
-<p><strong>Following R packages will be used in this section:</strong></p>
-<ul>
-<li><p>Lubridate (<a href="https://cran.r-project.org/web/packages/lubridate/">CRAN - Package lubridate (r-project.org)</a>) : fast and user friendly parsing of date-time data, extraction and updating of components of a date-time</p></li>
-<li><p>Timetk (<a href="https://cran.r-project.org/web/packages/timetk/index.html">CRAN - Package timetk (r-project.org)</a>) : Easy visualization, wrangling, and feature engineering of time series data for forecasting and machine learning prediction.</p></li>
-<li><p>Modeltime (<a href="https://cran.r-project.org/web/packages/modeltime/index.html">CRAN - Package modeltime (r-project.org)</a>) : Time series forecasting framework with models including ARIMA, Exponential Smoothing, and additional time series models from the ‘forecast’ and ‘prophet’ packages</p></li>
-</ul>
-<p><img src="images/clipboard-4134446947.png" class="img-fluid"></p>
+<section id="univariate-forecasting" class="level3">
+<h3 class="anchored" data-anchor-id="univariate-forecasting"><strong>2. Univariate Forecasting</strong></h3>
+<p>This module offers a comprehensive toolkit for exploring weather data across multiple stations and comparing forecasting models for specific stations. It enables users to conduct exploratory analysis and time series decomposition, enhancing understanding of weather trends. The module stands out for its capability to adjust forecasts for seasonality, providing tools to detect and correct seasonally affected time series data for more precise forecasting.</p>
 </section>
-<section id="climate-pollutant-relationship-explorer" class="level3">
-<h3 class="anchored" data-anchor-id="climate-pollutant-relationship-explorer">3. Climate-Pollutant Relationship Explorer</h3>
-<p>This module would enable the user to select different types of plots and variables to be included in plots centered on exploring relationships. Below, we list some possible plots for such analysis:</p>
-<section id="bubble-plot" class="level4">
-<h4 class="anchored" data-anchor-id="bubble-plot">Bubble Plot</h4>
-<p>This bubble plot, displaying the relationship between daily rainfall, mean temperature, and PM2.5 levels (represented by bubble size), provides a multidimensional view of the data. The plot allows a user to:</p>
-<ul>
-<li><p>assess if there are any trends between rainfall and temperature</p></li>
-<li><p>observe how air quality varies with different weather conditions. For example, days with higher rainfall has smaller bubbles (lower PM2.5 levels) in the plot below, suggesting that rain could help reduce air pollution.</p></li>
-</ul>
-<p><img src="images/clipboard-2783724441.png" class="img-fluid"></p>
-</section>
-<section id="treemap" class="level4">
-<h4 class="anchored" data-anchor-id="treemap">Treemap</h4>
-<p>This treemap can convey both the PM2.5 pollution levels (through the size of the rectangles) and the mean temperature (through the color of the rectangles) across different areas and stations.</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Warning
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Note that only a small number of selected stations were grouped into different areas for this prototype</p>
-</div>
-</div>
-<p><img src="images/clipboard-151434396.png" class="img-fluid"></p>
+<section id="spatial-interpolation" class="level3">
+<h3 class="anchored" data-anchor-id="spatial-interpolation"><strong>3. Spatial Interpolation</strong></h3>
+<p>In this module, users can generate isohyet (rainfall) and isotherm (temperature) maps using two different spatial interpolation techniques. Users will be able to modify input parameters and observe how this changes the interpolation results.</p>
+<p>To read more about the prototyping for this module, you may click <a href="../code/prototyping.html">here</a>.</p>
 
 
 </section>

@@ -1,0 +1,83 @@
+---
+title: "Overview of Project"
+date: February 11, 2024
+date-modified:  last-modified
+format:
+  html:
+    toc: true
+    number-sections: false
+    code-line-numbers: false
+    
+execute: 
+  eval: true
+  echo: true
+  warning: false  
+---
+
+# A Visual Analytics Tool for Singapore's Climate
+
+## Motivation
+
+In Singapore, the National Environment Agency in Singapore has provided extensive access to historical weather data. However, there remains a shortage of user-friendly tools to effectively visualize and analyze this data. Exploring these datasets within a visual analytics environment can provide valuable insights for various users, from policymakers to the general public.
+
+## The problems addressed
+
+There are some visualizations made available by the government for climate trends and air quality through websites like [Weather.gov.sg](http://www.weather.gov.sg/climate-trends/). However, these tools have some limitations:
+
+-   The current tools predominantly feature basic, static visualizations fixed to specific timeframes, such as choropleth maps or maps with callouts. They lack interactivity that can display the spatial and temporal nature of the data across different areas in Singapore.
+
+-   There are no available tools with advanced analytical functions, such as comparative analysis, time series analysis, and spatial interpolation. Users are limited in observing trends in climate.
+
+This project aims to overcome the identified problems by developing a visual analytics tool that allows one to explore historical weather data in Singapore.
+
+## Relevant related work
+
+This section will briefly discuss on some of relevant works that have already been done regarding weather.
+
+-   \`[Meteorological Service Singapore website](http://www.weather.gov.sg/climate-historical-daily/) has a section to view historical daily weather record in Singapore. Users can select various regions and retrieve climate data from different months and years. The interactive map provides a geographical plot of the data for users to select the areas. However, it lacks time series visualization that would allow users to analyse weather trends over time. The platform also does not support comparative analysis between different areas or across time frames, which it would be useful for understanding climate variation. Lastly, the collected data is limited to specific weather stations, with no way to estimate the weather at unmonitored locations.
+
+![](images/clipboard-820038503.png)
+
+-   [World Weather map website](https://map.worldweatheronline.com/temperature) provides an interactive global map that shows an information of various weather parameters, including temperature, precipitation, humidity, pressure, cloud, visibility, and wind. It also offers historical weather data for the past five days. This is a valuable resource for users to understand recent weather trends. However, the platform does not offer data specific to different areas in Singapore. Additionally, there is no forecast data and comparative analysis tools. Thus, it restricts users to anticipate future weather conditions or compare weather trends across different locations in Singapore.
+
+    ![](images/clipboard-2169924968.png)
+
+## Our solution
+
+Using various R packages, we will design an application that enables users to conduct different types of analyses on the weather data in Singapore. Users will be able to conduct the following analyses:
+
+1.  Analyse rainfall or temperature across stations and time periods, using statistical tests and interactive plots to identify weather patterns.
+2.  Conduct time series exploratory analysis, decomposition, and advanced forecasting with seasonal adjustment for accurate weather predictions across multiple stations.
+3.  Generate isohyet/isotherm maps from sparse data. Achieved by using spatial interpolation techniques to estimate conditions at unmonitored locations, informed by data from Singapore's weather stations.
+
+## The data
+
+Our dataset comprises historical daily records of rainfall and temperature across 11 locations in Singapore, spanning from 2021 to 2023. It provides a detailed look into the climate variations experienced in recent years.
+
+The dataset was retrieved from Weather.gov.sg, and all missing values were imputed using simple moving average.
+
++---------------------------------------------------------------+-------------+----------------+-----------------------------------------------------+
+| Dataset                                                       | Frequency   | Period         | Source                                              |
++===============================================================+=============+================+=====================================================+
+| Climate Historical Daily Records for 11 stations in Singapore | Daily       | 2021-2023      | http://www.weather.gov.sg/climate-historical-daily/ |
+|                                                               |             |                |                                                     |
+| (rainfall, temperature)                                       |             |                |                                                     |
++---------------------------------------------------------------+-------------+----------------+-----------------------------------------------------+
+
+Click to read more about the data retrieval [here](../code/data_retrieval.html) and data preparation [here](../code/data_retrieval.html).
+
+## Approach and prototypes
+
+### **1. Exploratory and Confirmatory Data Analysis**
+
+This module provides tools for conducting comparative analyses of weather data over different spatial and temporal scales, filling a gap where no existing tool offers such capabilities. It is designed to help users explore and understand weather patterns across various locations and time frames.
+
+### **2. Univariate Forecasting**
+
+This module offers a comprehensive toolkit for exploring weather data across multiple stations and comparing forecasting models for specific stations. It enables users to conduct exploratory analysis and time series decomposition, enhancing understanding of weather trends. The module stands out for its capability to adjust forecasts for seasonality, providing tools to detect and correct seasonally affected time series data for more precise forecasting.
+
+### **3. Spatial Interpolation**
+
+In this module, users can generate isohyet (rainfall) and isotherm (temperature) maps using two different spatial interpolation techniques. Users will be able to modify input parameters and observe how this changes the interpolation results.
+
+To read more about the prototyping for this module, you may click [here](../code/prototyping.html).

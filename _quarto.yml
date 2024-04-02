@@ -11,8 +11,8 @@ website:
     collapse-below: lg
     background: "#1B264F"
     right:
-      - text: "Proposal"
-        href: proposal/proposal.html
+      - text: "Overview"
+        href: overview/overview.html
       - text: Prototyping
         menu:
           - text: Data retrieval and wrangling
