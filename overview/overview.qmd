@@ -56,17 +56,19 @@ Our dataset comprises historical daily records of rainfall and temperature acros
 
 The dataset was retrieved from Weather.gov.sg, and all missing values were imputed using simple moving average.
 
-+---------------------------------------------------------------+-------------+----------------+-----------------------------------------------------+
-| Dataset                                                       | Frequency   | Period         | Source                                              |
-+===============================================================+=============+================+=====================================================+
-| Climate Historical Daily Records for 11 stations in Singapore | Daily       | 2021-2023      | http://www.weather.gov.sg/climate-historical-daily/ |
-|                                                               |             |                |                                                     |
-| (rainfall, temperature)                                       |             |                |                                                     |
-+---------------------------------------------------------------+-------------+----------------+-----------------------------------------------------+
++---------------------------------------------------------------+-----------+-----------+-----------------------------------------------------+
+| Dataset                                                       | Frequency | Period    | Source                                              |
++===============================================================+===========+===========+=====================================================+
+| Climate Historical Daily Records for 11 stations in Singapore | Daily     | 2021-2023 | http://www.weather.gov.sg/climate-historical-daily/ |
+|                                                               |           |           |                                                     |
+| (rainfall, temperature)                                       |           |           |                                                     |
++---------------------------------------------------------------+-----------+-----------+-----------------------------------------------------+
 
 Click to read more about the data retrieval [here](../code/data_retrieval.html) and data preparation [here](../code/data_retrieval.html).
 
 ## Approach and prototypes
+
+We will design the application as consisting of three modules:
 
 ### **1. Exploratory and Confirmatory Data Analysis**
 
@@ -80,4 +82,4 @@ This module offers a comprehensive toolkit for exploring weather data across mul
 
 In this module, users can generate isohyet (rainfall) and isotherm (temperature) maps using two different spatial interpolation techniques. Users will be able to modify input parameters and observe how this changes the interpolation results.
 
-To read more about the prototyping for this module, you may click [here](../code/prototyping.html).
+To read more about the prototyping for the modules, you may click [here](../code/prototyping.html).
